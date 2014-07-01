@@ -27,9 +27,22 @@ class ControllerCommonHome extends Controller{
     
     
     public function index(){
-        $data = file_get_contents('http://api.semitepayment.com/index.php?route=customer/customer/customers');
         
-        echo '<pre>';
-        print_r(json_decode($data));
+        if (($this->request->server['REQUEST_METHOD'] == 'POST')){
+            $data = file_get_contents('http://api.semitepayment.com/index.php?route=customer/customer/customer&cid='.$this->request->post['cid']);
+
+            if ($data){
+                echo '<pre>';
+                print_r(json_decode($data));
+            } else {
+                echo 'No Result';
+            }
+            
+            
+        } 
+        
+        $this->template = 'common/home.tpl';
+
+        $this->response->setOutput($this->render());
     }
 }
