@@ -37,7 +37,9 @@ class Customer {
     
     public function __construct($customer_object) {
         
-        $this->customer_id = $customer_object->customer_id;
+        if ($customer_object) {
+            $this->customer_id = $customer_object->customer_id;
+        }
     }
 
 
