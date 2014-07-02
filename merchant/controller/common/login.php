@@ -43,6 +43,7 @@ class ControllerCommonLogin extends Controller {
         $this->data['heading_title'] = $this->language->get('heading_title');
 
         $this->data['text_login'] = $this->language->get('text_login');
+        $this->data['text_heading'] = $this->language->get('text_heading');
         $this->data['text_forgotten'] = $this->language->get('text_forgotten');
 
         $this->data['entry_username'] = $this->language->get('entry_username');

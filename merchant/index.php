@@ -154,8 +154,11 @@ $registry->set('language', $language);
 $registry->set('document', new Document()); 	
 
 // User
-$customer_object = file_get_contents('http://api.semitepayment.com/index.php?route=authentication/auth/user');
-
+if (is_readable('http://api.semitepayment.com/index.php?route=authentication/auth/authenticate')) {
+    $customer_object = file_get_contents('http://api.semitepayment.com/index.php?route=authentication/auth/authenticate');
+} else {
+    $customer_object = null;
+}
 $registry->set('customer', new Customer(json_decode($customer_object))); 
 
 // Encryption

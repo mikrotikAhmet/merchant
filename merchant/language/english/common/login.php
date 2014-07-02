@@ -27,4 +27,21 @@
  *
  * @author ahmet
  */
+// header
+$_['heading_title']  = 'Merchant Area';
 
+// Text
+$_['text_heading']   = 'Merchant Login';
+$_['text_login']     = 'Please enter your login details.';
+$_['text_forgotten'] = 'Forgotten Password ?';
+
+// Entry
+$_['entry_username'] = 'Username or Email';
+$_['entry_password'] = 'Password';
+
+// Button
+$_['button_login']   = 'Login';
+
+// Error
+$_['error_login']    = 'No match for Username and/or Password.';
+$_['error_token']    = 'Invalid token session. Please login again.';
