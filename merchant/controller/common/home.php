@@ -23,26 +23,70 @@ if (!defined('DIR_APPLICATION'))
  *
  * @author ahmet
  */
-class ControllerCommonHome extends Controller{
-    
-    
-    public function index(){
-        
-        if (($this->request->server['REQUEST_METHOD'] == 'POST')){
-            $data = file_get_contents('http://api.semitepayment.com/index.php?route=customer/customer/customer&cid='.$this->request->post['cid']);
+class ControllerCommonHome extends Controller {
 
-            if ($data){
-                echo '<pre>';
-                print_r(json_decode($data));
-            } else {
-                echo 'No Result';
-            }
-            
-            
-        } 
-        
+    public function index() {
+
         $this->template = 'common/home.tpl';
+        $this->children = array(
+            'common/header',
+            'common/footer'
+        );
 
         $this->response->setOutput($this->render());
     }
+
+    public function login() {
+               
+        $route = '';
+
+        if (isset($this->request->get['route'])) {
+            $part = explode('/', $this->request->get['route']);
+
+            if (isset($part[0])) {
+                $route .= $part[0];
+            }
+
+            if (isset($part[1])) {
+                $route .= '/' . $part[1];
+            }
+        }
+
+        $ignore = array(
+            'common/login',
+            'common/forgotten',
+            'common/reset'
+        );
+        
+       
+        if (!$this->customer->isLogged() && !in_array($route, $ignore)) {
+            return $this->forward('common/login');
+        }
+
+        if (isset($this->request->get['route'])) {
+            $ignore = array(
+                'common/login',
+                'common/logout',
+                'common/forgotten',
+                'common/reset',
+                'error/not_found',
+                'error/permission'
+            );
+
+            $config_ignore = array();
+
+            if ($this->config->get('config_token_ignore')) {
+                $config_ignore = unserialize($this->config->get('config_token_ignore'));
+            }
+
+            $ignore = array_merge($ignore, $config_ignore);
+
+            if (!in_array($route, $ignore)) {
+                return $this->forward('common/login');
+            }
+        }
+        
+        return $this->forward('common/home');
+    }
+
 }

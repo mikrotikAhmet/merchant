@@ -118,13 +118,10 @@ $classes['engine'] = array(
     'controller',
     'front',
     'loader',
-    'model',
-    'page'
 );
 $classes['library'] = array(
-    'user',
+    'customer',
     'config',
-    'db',
     'url',
     'log',
     'request',
@@ -136,11 +133,7 @@ $classes['library'] = array(
     'currency',
     'mail',
     'pagination',
-    'image',
-    'encryption',
-    'content',
-    'module',
-    'creditcards');
+    'encryption');
 
 if ((isset($classes)) && is_array($classes)) {
 

@@ -1,4 +1,3 @@
-<form action="http://merchant.semitepayment.com/index.php?route=common/home" method="POST">
-    <input type="text" name="cid" value=""/>
-    <input type="submit" value="GET User"/>
-</form>
+<?php echo $header?>
+<h1>Hello World</h1>
+<?php echo $footer?>

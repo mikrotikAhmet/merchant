@@ -68,6 +68,59 @@ $registry->set('load', $loader);
 $config = new Config();
 $registry->set('config', $config);
 
+// Get Application Setting via API
+// Settings
+
+$setting_data = file_get_contents('http://api.semitepayment.com/index.php?route=setting/setting/getApplicationSettings');
+
+$settings = json_decode($setting_data);
+
+// Register Setting Data to Config
+$config->set('config', $settings);
+
+// Url
+$url = new Url(HTTP_SERVER, $config->get('config')->config_secure ? HTTPS_SERVER : HTTP_SERVER);	
+$registry->set('url', $url);
+
+// Log
+$log = new Log($config->get('config')->config_error_filename);
+$registry->set('log', $log);
+
+function error_handler($errno, $errstr, $errfile, $errline) {
+	global $log, $config;
+	
+	switch ($errno) {
+		case E_NOTICE:
+		case E_USER_NOTICE:
+			$error = 'Notice';
+			break;
+		case E_WARNING:
+		case E_USER_WARNING:
+			$error = 'Warning';
+			break;
+		case E_ERROR:
+		case E_USER_ERROR:
+			$error = 'Fatal Error';
+			break;
+		default:
+			$error = 'Unknown';
+			break;
+	}
+		
+	if ($config->get('config')->config_error_display) {
+		echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
+	}
+	
+	if ($config->get('config')->config_error_log) {
+		$log->write('PHP ' . $error . ':  ' . $errstr . ' in ' . $errfile . ' on line ' . $errline);
+	}
+
+	return true;
+}
+
+// Error Handler
+set_error_handler('error_handler');
+
 // Request
 $request = new Request();
 $registry->set('request', $request);
@@ -85,15 +138,34 @@ $registry->set('cache', $cache);
 $session = new Session();
 $registry->set('session', $session); 
 
+// Language
+$language_info = file_get_contents('http://api.semitepayment.com/index.php?route=setting/setting/getLanguageByCode');
+
+$language_data = json_decode($language_info);
+
+$config->set('config_language_id', $language_data->language_id);
+
+// Language	
+$language = new Language($language_data->directory);
+$language->load($language_data->filename);	
+$registry->set('language', $language);
+
+// Document
+$registry->set('document', new Document()); 	
+
+// User
+$customer_object = file_get_contents('http://api.semitepayment.com/index.php?route=authentication/auth/user');
+
+$registry->set('customer', new Customer(json_decode($customer_object))); 
+
+// Encryption
+$registry->set('encryption', new Encryption($config->get('config')->config_encryption));
 
 // Front Controller
 $controller = new Front($registry);
 
 // Login
-//$controller->addPreAction(new Action('common/home/login'));
-
-// Permission
-//$controller->addPreAction(new Action('common/home/permission'));
+$controller->addPreAction(new Action('common/home/login'));
 
 // Router
 if (isset($request->get['route'])) {
