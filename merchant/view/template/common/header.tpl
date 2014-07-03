@@ -46,3 +46,4 @@
 
     </head>
     <body>
+        <a href="<?php echo $logout?>">Logout</a>

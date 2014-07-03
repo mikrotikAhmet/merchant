@@ -118,10 +118,12 @@ $classes['engine'] = array(
     'controller',
     'front',
     'loader',
+    'model',
 );
 $classes['library'] = array(
     'customer',
     'config',
+    'db',
     'url',
     'log',
     'request',
@@ -133,7 +135,15 @@ $classes['library'] = array(
     'currency',
     'mail',
     'pagination',
-    'encryption');
+    'image',
+    'encryption',
+    'creditcards');
+
+if ((isset($classes)) && is_array($classes)) {
+
+    $auto_loader->_loadFromArray($classes);
+
+}
 
 if ((isset($classes)) && is_array($classes)) {
 

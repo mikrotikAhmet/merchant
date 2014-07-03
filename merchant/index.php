@@ -68,22 +68,27 @@ $registry->set('load', $loader);
 $config = new Config();
 $registry->set('config', $config);
 
-// Get Application Setting via API
+// Database
+$db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+$registry->set('db', $db);
+
 // Settings
+$query = $db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE application_id = '0'");
 
-$setting_data = file_get_contents('http://api.semitepayment.com/index.php?route=setting/setting/getApplicationSettings');
-
-$settings = json_decode($setting_data);
-
-// Register Setting Data to Config
-$config->set('config', $settings);
+foreach ($query->rows as $setting) {
+	if (!$setting['serialized']) {
+		$config->set($setting['key'], $setting['value']);
+	} else {
+		$config->set($setting['key'], unserialize($setting['value']));
+	}
+}
 
 // Url
-$url = new Url(HTTP_SERVER, $config->get('config')->config_secure ? HTTPS_SERVER : HTTP_SERVER);	
+$url = new Url(HTTP_SERVER, $config->get('config_secure') ? HTTPS_SERVER : HTTP_SERVER);	
 $registry->set('url', $url);
 
 // Log
-$log = new Log($config->get('config')->config_error_filename);
+$log = new Log($config->get('config_error_filename'));
 $registry->set('log', $log);
 
 function error_handler($errno, $errstr, $errfile, $errline) {
@@ -107,11 +112,11 @@ function error_handler($errno, $errstr, $errfile, $errline) {
 			break;
 	}
 		
-	if ($config->get('config')->config_error_display) {
+	if ($config->get('config_error_display')) {
 		echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
 	}
 	
-	if ($config->get('config')->config_error_log) {
+	if ($config->get('config_error_log')) {
 		$log->write('PHP ' . $error . ':  ' . $errstr . ' in ' . $errfile . ' on line ' . $errline);
 	}
 
@@ -138,37 +143,46 @@ $registry->set('cache', $cache);
 $session = new Session();
 $registry->set('session', $session); 
 
+
 // Language
-$language_info = file_get_contents('http://api.semitepayment.com/index.php?route=setting/setting/getLanguageByCode');
+$languages = array();
 
-$language_data = json_decode($language_info);
+$query = $db->query("SELECT * FROM `" . DB_PREFIX . "language`"); 
 
-$config->set('config_language_id', $language_data->language_id);
+foreach ($query->rows as $result) {
+	$languages[$result['code']] = $result;
+}
+
+$config->set('config_language_id', $languages[$config->get('config_admin_language')]['language_id']);
 
 // Language	
-$language = new Language($language_data->directory);
-$language->load($language_data->filename);	
+$language = new Language($languages[$config->get('config_admin_language')]['directory']);
+$language->load($languages[$config->get('config_admin_language')]['filename']);	
 $registry->set('language', $language);
 
 // Document
-$registry->set('document', new Document()); 	
+$registry->set('document', new Document()); 		
+
+// Currency
+$registry->set('currency', new Currency($registry));		
 
 // User
-if (is_readable('http://api.semitepayment.com/index.php?route=authentication/auth/authenticate')) {
-    $customer_object = file_get_contents('http://api.semitepayment.com/index.php?route=authentication/auth/authenticate');
-} else {
-    $customer_object = null;
-}
-$registry->set('customer', new Customer(json_decode($customer_object))); 
+$registry->set('customer', new Customer($registry));
+
+// Credit Card
+$registry->set('creditcard', new CreditCardValidator());
 
 // Encryption
-$registry->set('encryption', new Encryption($config->get('config')->config_encryption));
+$registry->set('encryption', new Encryption($config->get('config_encryption')));
 
 // Front Controller
 $controller = new Front($registry);
 
 // Login
 $controller->addPreAction(new Action('common/home/login'));
+
+// Permission
+$controller->addPreAction(new Action('common/home/permission'));
 
 // Router
 if (isset($request->get['route'])) {

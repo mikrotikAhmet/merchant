@@ -22,25 +22,24 @@ if (!defined('DIR_APPLICATION'))
     exit('No direct script access allowed');
 
 /**
- * Description of footer
+ * Description of logout
  *
  * @author ahmet
  */
-class ControllerCommonFooter extends Controller {
+class ControllerCommonLogout extends Controller {
 
-    protected function index() {
-        $this->language->load('common/footer');
+    public function index() {
+        $this->customer->logout();
 
-        $this->data['text_confirm'] = $this->language->get('text_confirm');
-        $this->data['text_footer'] = sprintf($this->language->get('text_footer'), VERSION);
-
-        if (file_exists(DIR_SYSTEM . 'config/svn/svn.ver')) {
-            $this->data['text_footer'] .= '.r' . trim(file_get_contents(DIR_SYSTEM . 'config/svn/svn.ver'));
+        unset($this->session->data['token']);
+        
+        if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+            $server = HTTPS_SERVER;
+        } else {
+            $server = HTTP_SERVER;
         }
 
-        $this->template = 'common/footer.tpl';
-
-        $this->render();
+        $this->redirect($server);
     }
 
 }
