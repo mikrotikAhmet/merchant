@@ -31,6 +31,7 @@ class Customer {
     private $username;
     private $email;
     private $telephone;
+    private $approved;
     private $fax;
     private $newsletter;
     private $customer_group_id;
@@ -55,6 +56,7 @@ class Customer {
                 $this->newsletter = $customer_query->row['newsletter'];
                 $this->customer_group_id = $customer_query->row['customer_group_id'];
                 $this->address_id = $customer_query->row['address_id'];
+                $this->approved = $customer_query->row['approved'];
 
                 $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_ip WHERE customer_id = '" . (int) $this->session->data['customer_id'] . "' AND ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'");
 
@@ -71,7 +73,7 @@ class Customer {
         if ($override) {
             $customer_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer where LOWER(email) = '" . $this->db->escape(utf8_strtolower($email)) . "' AND status = '1'");
         } else {
-            $customer_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE LOWER(email) = '" . $this->db->escape(utf8_strtolower($email)) . "' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('" . $this->db->escape($password) . "'))))) OR password = '" . $this->db->escape(md5($password)) . "') AND status = '1' AND approved = '1'");
+            $customer_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE LOWER(email) = '" . $this->db->escape(utf8_strtolower($email)) . "' AND (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('" . $this->db->escape($password) . "'))))) OR password = '" . $this->db->escape(md5($password)) . "') AND status = '1'");
         }
 
         if ($customer_query->num_rows) {
@@ -86,6 +88,7 @@ class Customer {
             $this->newsletter = $customer_query->row['newsletter'];
             $this->customer_group_id = $customer_query->row['customer_group_id'];
             $this->address_id = $customer_query->row['address_id'];
+            $this->approved = $customer_query->row['approved'];
 
             $this->db->query("UPDATE " . DB_PREFIX . "customer SET ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int) $this->customer_id . "'");
 
@@ -107,11 +110,15 @@ class Customer {
         $this->fax = '';
         $this->newsletter = '';
         $this->customer_group_id = '';
-        $this->address_id = '';
+        $this->approved = '';
     }
 
     public function isLogged() {
         return $this->customer_id;
+    }
+    
+    public function isApproved() {
+        return $this->approved;
     }
 
     public function getId() {

@@ -110,6 +110,12 @@ class ControllerCommonHome extends Controller {
 
             $this->model_localisation_currency->updateCurrencies();
         }
+        
+        if (!$this->customer->isApproved()){
+            $this->data['error_approved'] = $this->language->get('error_approved');
+        } else {
+            $this->data['error_approved'] = '';
+        }
 
         $this->template = 'common/home.tpl';
         $this->children = array(

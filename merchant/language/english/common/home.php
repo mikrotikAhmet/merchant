@@ -28,3 +28,6 @@
  * @author ahmet
  */
 
+
+// Error
+$_['error_approved'] = '<b>Action Required </b>: Your Merchant account still not approved by our system. You can only process transaction for <b>TEST</b> purposes.<br/>    Or you can send us <a href="#">Account Activation Request</a> and our PCI Complience Team will check your account and activate it.';

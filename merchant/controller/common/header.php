@@ -49,6 +49,7 @@ class ControllerCommonHeader extends Controller{
         $this->language->load('common/header');
 
         $this->data['heading_title'] = $this->language->get('heading_title');
+        $this->data['text_dashboard'] = $this->language->get('text_dashboard');
            
 
         if (!$this->customer->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
@@ -64,7 +65,6 @@ class ControllerCommonHeader extends Controller{
             
             $this->data['logout'] = $this->url->link('common/logout', 'token=' . $this->session->data['token'], 'SSL');
         }
-
 
         $this->template = 'common/header.tpl';
 

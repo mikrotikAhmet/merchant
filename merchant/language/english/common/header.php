@@ -28,6 +28,8 @@
  * @author ahmet
  */
 // Text
+// Text
+$_['text_dashboard']                   = 'Dashboard';
 $_['text_logged'] = 'Logout';
 $_['logged_as'] = '%s';
 
