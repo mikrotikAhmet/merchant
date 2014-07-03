@@ -41,6 +41,7 @@ $_['text_yes']                      = 'Yes';
 $_['text_no']                       = 'No';
 $_['text_enabled']                  = 'Enabled';
 $_['text_disabled']                 = 'Disabled';
+$_['text_home']                 = 'Home';
 
 // Button
 $_['button_reset']                 = 'Reset';

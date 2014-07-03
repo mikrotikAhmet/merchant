@@ -101,32 +101,6 @@
 
             </div>
             <!-- / Top Fixed Bar: Navbar Inner -->
-
-            <!-- Top Fixed Bar: Breadcrumb -->
-            <div class="breadcrumb clearfix">
-
-                <!-- Top Fixed Bar: Breadcrumb Container -->
-                <div class="container">
-
-                    <!-- Top Fixed Bar: Breadcrumb Location -->
-                    <ul class="pull-left">
-                        <li><a href="#"><i class="icon-home"></i> Home</a> <span class="divider">/</span></li>
-                        <li class="active"><a href="#"><i class="icon-align-justify"></i> Dashboard</a></li>
-                    </ul>
-                    <!-- / Top Fixed Bar: Breadcrumb Location -->
-
-                    <!-- Top Fixed Bar: Breadcrumb Right Navigation -->
-                    <ul class="pull-right">
-
-                    </ul>
-                    <!-- / Top Fixed Bar: Breadcrumb Right Navigation -->
-
-                </div>
-                <!-- / Top Fixed Bar: Breadcrumb Container -->
-
-            </div>
-            <!-- / Top Fixed Bar: Breadcrumb -->
-
         </div>
         <!-- / Top Fixed Bar -->
         <?php } ?>
