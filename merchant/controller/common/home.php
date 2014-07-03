@@ -32,7 +32,7 @@ class ControllerCommonHome extends Controller {
 
         $this->language->load('common/home');
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->config->get('config_name'));
 
         $this->data['heading_title'] = $this->language->get('heading_title');
         $this->data['heading_sub_title'] = sprintf($this->language->get('heading_sub_title'), $this->config->get('config_name'));

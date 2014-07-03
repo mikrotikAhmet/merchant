@@ -56,7 +56,8 @@ class ControllerCommonHeader extends Controller{
 
             $this->data['home'] = $this->url->link('common/login', '', 'SSL');
         } else {
-            $this->data['logged'] = sprintf($this->language->get('text_logged'), $this->customer->getUserName());
+            $this->data['logged'] = $this->language->get('text_logged');
+            $this->data['logged_as'] = sprintf($this->language->get('logged_as'), $this->customer->getUserName());
             $this->data['avatar'] = $this->customer->getAvatar();
 
             $this->data['home'] = $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL');

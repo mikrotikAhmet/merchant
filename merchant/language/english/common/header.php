@@ -27,4 +27,7 @@
  *
  * @author ahmet
  */
+// Text
+$_['text_logged'] = 'Logout';
+$_['logged_as'] = '%s';
 

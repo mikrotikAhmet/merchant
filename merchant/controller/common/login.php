@@ -33,7 +33,7 @@ class ControllerCommonLogin extends Controller {
     public function index() {
         $this->language->load('common/login');
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle($this->config->get('config_name'));
 
         if ($this->customer->isLogged() && isset($this->request->get['token']) && ($this->request->get['token'] == $this->session->data['token'])) {
             $this->redirect($this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'));
