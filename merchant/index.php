@@ -72,8 +72,21 @@ $registry->set('config', $config);
 $db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 $registry->set('db', $db);
 
+// Application
+if (isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == 'on') || ($_SERVER['HTTPS'] == '1'))) {
+	$application_query = $db->query("SELECT * FROM " . DB_PREFIX . "application WHERE REPLACE(`ssl`, 'www.', '') = '" . $db->escape('https://' . str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/') . "'");
+} else {
+	$application_query = $db->query("SELECT * FROM " . DB_PREFIX . "application WHERE REPLACE(`url`, 'www.', '') = '" . $db->escape('http://' . str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/') . "'");
+}
+
+if ($application_query->num_rows) {
+	$config->set('config_application_id', $application_query->row['application_id']);
+} else {
+	$config->set('config_application_id', 0);
+}
+		
 // Settings
-$query = $db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE application_id = '0'");
+$query = $db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE application_id = '0' OR application_id = '" . (int)$config->get('config_application_id') . "' ORDER BY application_id ASC");
 
 foreach ($query->rows as $setting) {
 	if (!$setting['serialized']) {
@@ -81,6 +94,11 @@ foreach ($query->rows as $setting) {
 	} else {
 		$config->set($setting['key'], unserialize($setting['value']));
 	}
+}
+
+if (!$application_query->num_rows) {
+	$config->set('config_url', HTTP_SERVER);
+	$config->set('config_ssl', HTTPS_SERVER);	
 }
 
 // Url
