@@ -46,4 +46,6 @@
 
     </head>
     <body>
+        <?php if ($logged) { ?>
         <a href="<?php echo $logout?>">Logout</a>
+        <?php } ?>
