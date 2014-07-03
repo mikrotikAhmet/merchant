@@ -31,7 +31,7 @@ class ControllerCommonForgotten extends Controller {
     private $error = array();
 
     public function index() {
-        if ($this->user->isLogged()) {
+        if ($this->customer->isLogged()) {
             $this->redirect($this->url->link('common/home', '', 'SSL'));
         }
 
@@ -43,14 +43,14 @@ class ControllerCommonForgotten extends Controller {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $this->load->model('user/user');
+        $this->load->model('account/customer');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->language->load('mail/forgotten');
 
             $code = sha1(uniqid(mt_rand(), true));
 
-            $this->model_user_user->editCode($this->request->post['email'], $code);
+            $this->model_account_customer->editCode($this->request->post['email'], $code);
 
             $subject = sprintf($this->language->get('text_subject'), $this->config->get('config_name'));
 
@@ -133,7 +133,7 @@ class ControllerCommonForgotten extends Controller {
     protected function validate() {
         if (!isset($this->request->post['email'])) {
             $this->error['warning'] = $this->language->get('error_email');
-        } elseif (!$this->model_user_user->getTotalUsersByEmail($this->request->post['email'])) {
+        } elseif (!$this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
             $this->error['warning'] = $this->language->get('error_email');
         }
 
