@@ -342,5 +342,29 @@ class ModelAccountCustomer extends Model {
         
         return $query->rows;
     }
+    
+    public function setTestSecretKey($key){
+        
+        $this->db->query("UPDATE ".DB_PREFIX."customer_account SET test_secret_key = '".$this->db->escape($key)."' WHERE customer_id = '".(int) $this->customer->getId()."'");
+        
+    }
+    
+    public function setTestPublicKey($key){
+        
+        $this->db->query("UPDATE ".DB_PREFIX."customer_account SET test_public_key = '".$this->db->escape($key)."' WHERE customer_id = '".(int) $this->customer->getId()."'");
+        
+    }
+    
+    public function setLiveSecretKey($key){
+        
+        $this->db->query("UPDATE ".DB_PREFIX."customer_account SET live_secret_key = '".$this->db->escape($key)."' WHERE customer_id = '".(int) $this->customer->getId()."'");
+        
+    }
+    
+    public function setLivePublicKey($key){
+        
+        $this->db->query("UPDATE ".DB_PREFIX."customer_account SET live_public_key = '".$this->db->escape($key)."' WHERE customer_id = '".(int) $this->customer->getId()."'");
+        
+    }
 
 }

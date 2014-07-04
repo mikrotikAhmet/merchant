@@ -159,6 +159,51 @@
                     <!-- / Create Account: Form --> 
                 </div>
                 <!-- / Customer General Information --> 
+                
+                <!-- / Customer General API KEY --> 
+                <div class="tab-pane" id="tab-api">
+                    <form class="form-horizontal" id="api">
+                        <!-- Create Account: Test Secret Key -->
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword"><i class="icon-key"></i> <?php echo $entry_test_sk?></label>
+                            <div class="controls">
+                                <input type="text" id="tsk" name="tsk" placeholder="" value="<?php echo $this->customer->getTestSecret()?>" class="span6">
+                                <button class="btn" type="button" onclick="generateKey('tsk')"><i class="icon-refresh"></i></button>
+                            </div>
+                        </div>
+                        <!-- / Create Account: Test Secret Key -->
+                        <!-- Create Account: Test Publishable Key -->
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword"><i class="icon-key"></i> <?php echo $entry_test_pk?></label>
+                            <div class="controls">
+                                <input type="text" id="tpk" name="tpk" placeholder="" value="<?php echo $this->customer->getTestPublic()?>" class="span6">
+                                <button class="btn" type="button" onclick="generateKey('tpk')"><i class="icon-refresh"></i></button>
+                            </div>
+                        </div>
+                        <!-- / Create Account: Test Publishable Key -->
+                        
+                        <!-- Create Account: Live Secret Key -->
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword"><i class="icon-key"></i> <?php echo $entry_live_sk?></label>
+                            <div class="controls">
+                                <input type="text" id="tsk" name="lsk" placeholder="" value="<?php echo $this->customer->getLiveSecret()?>" class="span6">
+                                <button class="btn" type="button" onclick="generateKey('lsk')"><i class="icon-refresh"></i></button>
+                            </div>
+                        </div>
+                        <!-- / Create Account: Live Secret Key -->
+                        <!-- Create Account: Live Publishable Key -->
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword"><i class="icon-key"></i> <?php echo $entry_live_pk?></label>
+                            <div class="controls">
+                                <input type="text" id="tpk" name="lpk" placeholder="" value="<?php echo $this->customer->getLivePublic()?>" class="span6">
+                                <button class="btn" type="button" onclick="generateKey('lpk')"><i class="icon-refresh"></i></button>
+                            </div>
+                        </div>
+                        <!-- / Create Account: Live Publishable Key -->
+                    </form>
+                    
+                </div>
+                <!-- / Customer General API KEY --> 
 
             </div>
             <!-- / Account: Settings -->
@@ -266,6 +311,18 @@ $('select[name=\'country_id\']').bind('change', function() {
                 $('#updatePassword').each(function(){
                     this.reset();
                 });
+            }
+        });
+    }
+    
+    function generateKey(type){
+        $.ajax({
+            url: 'index.php?route=account/account/generateKeys&token=<?php echo $token; ?>',
+            data : 'type='+type,
+            type : 'POST',
+            dataType: 'json',
+            success: function(json) {
+                $('input[name=\''+type+'\']').val(json);
             }
         });
     }

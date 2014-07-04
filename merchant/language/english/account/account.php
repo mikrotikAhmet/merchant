@@ -40,6 +40,10 @@ $_['entry_email'] = 'Email';
 $_['entry_country'] = 'Country & State';
 $_['entry_password'] = 'Password';
 $_['entry_two_step'] = 'Two-step Key';
+$_['entry_test_sk'] = 'Test Secret Key';
+$_['entry_test_pk'] = 'Test Public Key';
+$_['entry_live_sk'] = 'Live Secret Key';
+$_['entry_live_pk'] = 'Live Public Key';
 
 
 // Error

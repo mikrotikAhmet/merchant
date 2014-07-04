@@ -24,7 +24,7 @@ if (!defined('DIR_APPLICATION'))
  * @author ahmet
  */
 class ControllerAccountAccount extends Controller {
-    
+
     private $error = array();
 
     public function index() {
@@ -35,7 +35,7 @@ class ControllerAccountAccount extends Controller {
 
         $this->getForm();
     }
-    
+
     public function update() {
         $this->language->load('account/account');
 
@@ -53,9 +53,9 @@ class ControllerAccountAccount extends Controller {
 
         $this->getForm();
     }
-    
-    protected function getForm(){
-        
+
+    protected function getForm() {
+
         $this->data['text_select'] = $this->language->get('text_select');
         $this->data['text_none'] = $this->language->get('text_none');
         $this->data['text_decline_cvc'] = $this->language->get('text_decline_cvc');
@@ -67,29 +67,34 @@ class ControllerAccountAccount extends Controller {
         $this->data['entry_password'] = $this->language->get('entry_password');
         $this->data['entry_two_step'] = $this->language->get('entry_two_step');
 
+        $this->data['entry_test_sk'] = $this->language->get('entry_test_sk');
+        $this->data['entry_test_pk'] = $this->language->get('entry_test_pk');
+        $this->data['entry_live_sk'] = $this->language->get('entry_live_sk');
+        $this->data['entry_live_pk'] = $this->language->get('entry_live_pk');
+
         $this->data['button_update'] = $this->language->get('button_update');
         $this->data['button_cancel'] = $this->language->get('button_cancel');
         $this->data['button_password'] = $this->language->get('button_password');
         $this->data['button_enable'] = $this->language->get('button_enable');
 
         $this->data['tab_general'] = $this->language->get('tab_general');
-        
+
         $this->data['action'] = $this->url->link('account/account/update', 'token=' . $this->session->data['token'], 'SSL');
-        
+
         $this->data['token'] = $this->session->data['token'];
-        
+
         if (isset($this->error['email'])) {
             $this->data['error_email'] = $this->error['email'];
         } else {
             $this->data['error_email'] = '';
         }
-        
+
         if (isset($this->error['country_id'])) {
             $this->data['error_country'] = $this->error['country_id'];
         } else {
             $this->data['error_country'] = '';
         }
-        
+
         if (isset($this->error['zone_id'])) {
             $this->data['error_zone'] = $this->error['zone_id'];
         } else {
@@ -131,24 +136,22 @@ class ControllerAccountAccount extends Controller {
         $this->response->setOutput($this->render());
     }
 
-
-    public function updatePassword(){
+    public function updatePassword() {
         $json = array();
-        
+
         $data = $this->request->post;
-        
+
         $this->load->model('account/customer');
-        
-        $result = $this->model_account_customer->updatePassword($data['oldpassword'],$data['newpassword']);
-        
-        if ($result){
+
+        $result = $this->model_account_customer->updatePassword($data['oldpassword'], $data['newpassword']);
+
+        if ($result) {
             $json = $this->language->get('password_success');
         } else {
             $json = $this->language->get('password_faild');
         }
-        
+
         $this->response->setOutput(json_encode($json));
-        
     }
 
     public function country() {
@@ -175,7 +178,7 @@ class ControllerAccountAccount extends Controller {
 
         $this->response->setOutput(json_encode($json));
     }
-    
+
     protected function validateForm() {
 
         if (!$this->request->post['country_id']) {
@@ -189,11 +192,11 @@ class ControllerAccountAccount extends Controller {
         if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['email'])) {
             $this->error['email'] = $this->language->get('error_email');
         }
-        
+
         $customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);
 
         $current_customer = $this->customer->getId();
-        
+
         if (!isset($current_customer)) {
             if ($customer_info) {
                 $this->error['warning'] = $this->language->get('error_exists');
@@ -213,6 +216,38 @@ class ControllerAccountAccount extends Controller {
         } else {
             return false;
         }
+    }
+
+    public function generateKeys() {
+        $json = array();
+        
+        $type = $this->request->post;
+        
+        $this->load->model('account/customer');
+        
+        switch ($type['type']) {
+            case 'tsk':
+                $json = $this->config->get('config_test_secretkey_api_prefix').$this->encryption->encrypt(time());
+                $this->model_account_customer->setTestSecretKey($json);
+                break;
+            case 'tpk':
+                $json = $this->config->get('config_test_publickey_api_prefix').$this->encryption->encrypt(time());
+                $this->model_account_customer->setTestPublicKey($json);
+                break;
+            case 'lsk':
+                $json = $this->config->get('config_live_secretkey_api_prefix').$this->encryption->encrypt(time());
+                $this->model_account_customer->setLiveSecretKey($json);
+                break;
+            case 'lpk':
+                $json = $this->config->get('config_live_publickey_api_prefix').$this->encryption->encrypt(time());
+                $this->model_account_customer->setLivePublicKey($json);
+                break;
+        }
+
+        
+        
+                
+        $this->response->setOutput(json_encode($json));
     }
 
 }

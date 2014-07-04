@@ -227,5 +227,48 @@ class Customer {
 
         return $query->row['total'];
     }
+    
+    public function getTestSecret(){
+        
+        $query = $this->db->query("SELECT test_secret_key FROM " . DB_PREFIX . "customer_account WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['test_secret_key'];
+        } else {
+            return false;
+        }
+    }
+    
+    public function getTestPublic(){
+        
+        $query = $this->db->query("SELECT test_public_key FROM " . DB_PREFIX . "customer_account WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['test_public_key'];
+        } else {
+            return false;
+        }
+    }
+    
+    public function getLiveSecret(){
+        
+        $query = $this->db->query("SELECT live_secret_key FROM " . DB_PREFIX . "customer_account WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['live_secret_key'];
+        } else {
+            return false;
+        }
+    }
+    public function getLivePublic(){
+        
+        $query = $this->db->query("SELECT live_public_key FROM " . DB_PREFIX . "customer_account WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['live_public_key'];
+        } else {
+            return false;
+        }
+    }
 
 }
