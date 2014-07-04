@@ -47,6 +47,9 @@ $_['text_home']                 = 'Home';
 $_['button_reset']                 = 'Reset';
 $_['button_cancel']                 = 'Cancel';
 
+// Tabs
+$_['tab_general'] = 'General';
+
 
 // Error
 $_['error_upload_1']                = 'Warning: The uploaded file exceeds the upload_max_filesize directive in php.ini!';

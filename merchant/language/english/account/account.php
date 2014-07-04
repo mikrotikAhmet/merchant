@@ -18,21 +18,15 @@
 
 /**
  * @package     EGC Services Ltd
- * @version     $Id: home.php Jul 2, 2014 ahmet
+ * @version     $Id: account.php Jul 4, 2014 ahmet
  * @copyright   Copyright (c) 2014 EGC Services Ltd .
  * @license     http://www.egamingc.com/license/
  */
 /**
- * Description of home.php
+ * Description of account.php
  *
  * @author ahmet
  */
+// Heading
+$_['heading_title'] = 'Acount Settings';
 
-// Text
-$_['text_last_transfer'] = 'Last transfer';
-$_['text_withdraw'] = 'Withdrawal';
-$_['text_balance'] = 'Total Balance';
-
-
-// Error
-$_['error_approved'] = '<b>Action Required </b>: Your Merchant account still not approved by our system. <br/>Before <b><a href="">activating your account</a></b>, you can only interact with Semite Payment in test mode. With the exception of the ability to make a real charge to a credit card, all of Semite Payment\'s features are available in test mode.';

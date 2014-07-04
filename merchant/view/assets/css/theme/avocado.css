@@ -14,5 +14,44 @@
 .navbar-inverse .nav .dropdown-menu .active > a,
 .navbar-inverse .nav .dropdown-menu .active > a:hover, 
 .navbar-inverse .nav .dropdown-menu .active > a:focus {
-	background-color:#72914C;
+    background-color:#72914C;
+}
+
+
+.breadcrumb {
+    padding: 12px 15px;
+    border-radius: 0;
+    /* margin-bottom: 0; */
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,1),0px 2px 4px 0 rgba(0,0,0,0.08);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,1),0px 2px 4px 0 rgba(0,0,0,0.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,1),0px 2px 4px 0 rgba(0,0,0,0.08);
+    background-image: -moz-linear-gradient(bottom,rgba(0,0,0,0.01) 0,rgba(255,255,255,0.01) 100%);
+    background-image: -o-linear-gradient(bottom,rgba(0,0,0,0.01) 0,rgba(255,255,255,0.01) 100%);
+    background-image: -webkit-linear-gradient(bottom,rgba(0,0,0,0.01) 0,rgba(255,255,255,0.01) 100%);
+    background-image: linear-gradient(bottom,rgba(0,0,0,0.01) 0,rgba(255,255,255,0.01) 100%);
+}
+
+.breadcrumb ul.pull-left {
+    padding-left: 20px;
+}
+.breadcrumb ul {
+    margin: 0;
+}
+.breadcrumb ul {
+    list-style: none;
+}
+
+.breadcrumb ul li {
+    display: inline;
+}
+
+li {
+    line-height: 18px;
+}
+li {
+    line-height: 20px;
+}
+user agent stylesheetli {
+    display: list-item;
+    text-align: -webkit-match-parent;
 }

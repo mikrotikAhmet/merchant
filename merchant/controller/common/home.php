@@ -35,7 +35,18 @@ class ControllerCommonHome extends Controller {
         $this->document->setTitle($this->config->get('config_name'));
 
         $this->data['heading_title'] = $this->language->get('heading_title');
-        $this->data['heading_sub_title'] = sprintf($this->language->get('heading_sub_title'), $this->config->get('config_name'));
+        
+        $this->data['text_last_transfer'] = $this->language->get('text_last_transfer');
+        $this->data['text_withdraw'] = $this->language->get('text_withdraw');
+        $this->data['text_balance'] = $this->language->get('text_balance');
+        
+        // Get Customer Balance
+        
+        $this->data['balance'] = $this->currency->format($this->customer->getBalance(), $this->config->get('config_currency'));
+        
+        $withdraw_data = $this->customer->getLastWithdraw();
+        
+        $this->data['last_transfer'] = $this->currency->format((isset($withdraw_data['amount']) ? $withdraw_data['amount'] : 0), $this->config->get('config_currency'));
 
         // Check install directory exists
         if (is_dir(dirname(DIR_APPLICATION) . '/install')) {

@@ -199,8 +199,6 @@ $controller = new Front($registry);
 // Login
 $controller->addPreAction(new Action('common/home/login'));
 
-// Permission
-$controller->addPreAction(new Action('common/home/permission'));
 
 // Router
 if (isset($request->get['route'])) {

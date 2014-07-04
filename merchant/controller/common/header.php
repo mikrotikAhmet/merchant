@@ -50,6 +50,8 @@ class ControllerCommonHeader extends Controller{
 
         $this->data['heading_title'] = $this->language->get('heading_title');
         $this->data['text_dashboard'] = $this->language->get('text_dashboard');
+        $this->data['text_account'] = $this->language->get('text_account');
+        $this->data['text_setting'] = $this->language->get('text_setting');
            
 
         if (!$this->customer->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
@@ -62,6 +64,8 @@ class ControllerCommonHeader extends Controller{
             $this->data['avatar'] = $this->customer->getAvatar();
 
             $this->data['home'] = $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL');
+            $this->data['account'] = $this->url->link('account/account', 'token=' . $this->session->data['token'], 'SSL');
+            $this->data['setting'] = $this->url->link('account/setting', 'token=' . $this->session->data['token'], 'SSL');
             
             $this->data['logout'] = $this->url->link('common/logout', 'token=' . $this->session->data['token'], 'SSL');
         }

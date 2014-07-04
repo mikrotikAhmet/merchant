@@ -170,6 +170,13 @@ class Customer {
 
         return $query->row['total'];
     }
+    
+    public function getLastWithdraw() {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '1' ORDER BY date_proceed DESC");
+
+        return $query->row;
+    }
+    
 
     public function getRewardPoints() {
         $query = $this->db->query("SELECT SUM(points) AS total FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int) $this->customer_id . "'");

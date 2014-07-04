@@ -35,6 +35,30 @@
     </div>
     <!-- / Alert -->
     <?php } ?>
+
+    <div class="row-fluid">
+        <!-- Information Boxes: Last transfer -->
+        <div class="span3 well infobox">
+            <i class="icon-6x icon-home"></i>
+            <div class="pull-right text-right">
+                <?php echo $text_last_transfer?><br>
+                <b class="huge"><?php echo $last_transfer?></b><br>
+                <span class="caps muted"><?php echo $text_withdraw?></span>
+            </div>
+        </div>
+        <!-- / Information Boxes: Last transfer -->
+        <!-- Information Boxes: Balance -->
+        <div class="span3 well infobox pull-right">
+            <i class="icon-6x icon-money"></i>
+            <div class="pull-right text-right">
+                <?php echo $text_balance?><br>
+                <b class="huge"><?php echo $balance?></b><br>
+                <span class="caps muted"></span>
+            </div>
+        </div>
+        <!-- / Information Boxes: Balance -->
+    </div>
+
 </div>
 <!-- / Content Container -->
 <?php echo $footer?>

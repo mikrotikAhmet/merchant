@@ -75,60 +75,8 @@
                             <!-- Main Navigation: Dashboard -->
                             <li id="dashboard"><a href="<?php echo $home?>"><i class="icon-align-justify"></i> <?php echo $text_dashboard?></a></li>
                             <!-- / Main Navigation: Dashboard -->
-                            <!-- Main Navigation: General -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-th"></i> General <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="grid.html"><i class="icon-th"></i> Grid</a></li>
-                                    <li><a href="icons.html"><i class="icon-circle"></i> Icons</a></li>
-                                    <li><a href="typography.html"><i class="icon-font"></i> Typography</a></li>
-                                    <li><a href="buttons.html"><i class="icon-circle-blank"></i> Buttons</a></li>
-                                </ul>
-                            </li>
-                            <!-- / Main Navigation: General -->
-                            <!-- Main Navigation: UI Elements -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-magic">
-                                    </i> UI Elements <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="forms.html"><i class="icon-check"></i> Forms</a></li>
-                                    <li><a href="wysiwyg.html"><i class="icon-edit"></i> WYSIWYG</a></li>
-                                    <li><a href="tabs.html"><i class="icon-th-large"></i> Tabs / Accordion</a></li>
-                                </ul>
-                            </li>
-                            <!-- / Main Navigation: UI Elements -->
-                            <!-- Main Navigation: Components -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="icon-th-large"></i> Components <b class="caret"></b>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="calendar.html"><i class="icon-calendar"></i> Calendar</a></li>
-                                    <li><a href="maps.html"><i class="icon-map-marker"></i> Maps</a></li>
-                                    <li><a href="tables.html"><i class="icon-table"></i> Tables</a></li>
-                                    <li><a href="charts.html"><i class="icon-bar-chart"></i> Charts</a></li>
-                                    <li><a href="login.html"><i class="icon-key"></i> Login</a></li>
-                                    <li class="dropdown-submenu">
-                                        <a href="#"><i class="icon-signin"></i> Sub-Menu</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#"><i class="icon-signout"></i> This</a></li>
-                                            <li><a href="#"><i class="icon-sitemap"></i> Is</a></li>
-                                            <li><a href="#"><i class="icon-share-alt"></i> An</a></li>
-                                            <li><a href="#"><i class="icon-reorder"></i> Example</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- / Main Navigation: Components -->
-                            <!-- Main Navigation: Gallery -->
-                            <li><a href="gallery.html"><i class="icon-picture"></i> Gallery</a></li>
-                            <!-- / Main Navigation: Gallery -->
-                        </ul>
+                         </ul>
                     </ul>
-
                     <!-- User Navigation -->
                     <ul class="nav pull-right">
                         <!-- User Navigation: User -->
@@ -143,8 +91,8 @@
 
                             <!-- User Navigation: User Dropdown -->
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="icon-user"></i> Account</a></li>
-                                <li><a href="#settings" data-toggle="modal"><i class="icon-cog"></i> Settings</a></li>
+                                <li><a href="<?php echo $account?>"><i class="icon-user"></i> <?php echo $text_account?></a></li>
+                                <!--li><a href="<?php echo $setting?>"><i class="icon-cog"></i> <?php echo $text_setting?></a></li-->
                                 <li class="divider"></li>
                                 <li><a href="<?php echo $logout?>"><i class="icon-off"></i> <?php echo $logged?></a></li>
                             </ul>
