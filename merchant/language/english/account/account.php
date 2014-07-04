@@ -41,3 +41,10 @@ $_['entry_country'] = 'Country & State';
 $_['entry_password'] = 'Password';
 $_['entry_two_step'] = 'Two-step Key';
 
+
+// Error
+$_['error_exists']          = 'Warning: E-Mail Address is already registered!';
+$_['error_email']           = 'E-Mail Address does not appear to be valid!';
+$_['error_country']         = 'Please select a country!';
+$_['error_zone']            = 'Please select a region / state!';
+

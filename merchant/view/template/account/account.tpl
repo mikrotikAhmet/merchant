@@ -47,7 +47,7 @@
                 <!-- Customer General Information -->
                 <div class="tab-pane active" id="tab-general">
                     <!-- Create Account: Form -->
-                    <form class="form-horizontal">
+                    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal" role="form" id="form">
                         <!-- Create Account: Form Name -->
                         <div class="control-group">
                             <label class="control-label" for="inputName"><i class="icon-user"></i> <?php echo $entry_fullname?></label>
@@ -62,6 +62,10 @@
                             <label class="control-label" for="inputUsername"><i class="icon-user"></i> <?php echo $entry_email?></label>
                             <div class="controls">
                                 <input type="text" id="inputUsername" name="email" placeholder="<?php echo $entry_email?>" value="<?php echo $this->customer->getEmail()?>">
+                                <?php if ($error_email) { ?>
+                                <br/>
+                                    <span class="error"><?php echo $error_email; ?></span>
+                                <?php } ?>
                             </div>
                         </div>
                         <!-- / Create Account: Form Email -->
@@ -80,9 +84,17 @@
                                     <?php } ?>
                                     <?php } ?>
                                 </select>
+                                <?php if ($error_country) { ?>
+                                    <span class="error"><?php echo $error_country; ?></span>
+                                <?php } ?>
                                 <select name="zone_id" class="span3" title="zones" id="zones">
                                     <option value=""><?php echo $text_select?></option>
                                 </select>
+                                
+                                <?php if ($error_zone) { ?>
+                                
+                                    <span class="error"><?php echo $error_zone; ?></span>
+                                <?php } ?>
                             </div>
                         </div>
                         <!-- / Create Account: Form Nationality -->
@@ -108,14 +120,29 @@
                         <div class="control-group">
                             <label class="control-label" for="inputInline"></label>
                             <div class="controls">
+                                <?php if ($this->customer->getDeclineCVC()) { ?>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="decline_cvc" value="1" checked>
+                                    <?php echo $text_decline_cvc?>				
+                                </label>
+                                <?php } else { ?>
                                 <label class="checkbox">
                                     <input type="checkbox" name="decline_cvc" value="1">
                                     <?php echo $text_decline_cvc?>				
                                 </label>
+                                <?php } ?>
+                                
+                                <?php if ($this->customer->getDeclineZIP()) { ?>
                                 <label class="checkbox">
-                                    <input type="checkbox" name="decline_zip" value="1">
+                                    <input type="checkbox" name="decline_zip" value="1" checked>
                                     <?php echo $text_decline_zip?>				
                                 </label>
+                                <?php } else { ?>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="decline_zip" value="1" >
+                                    <?php echo $text_decline_zip?>				
+                                </label>
+                                <?php } ?>
 
                             </div>
                         </div>	
@@ -123,7 +150,7 @@
 
                         <!-- Create Account: Form Actions -->
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary"><?php echo $button_update?></button>
+                            <button type="button" onclick="$('#form').submit();" class="btn btn-primary"><?php echo $button_update?></button>
                             <button type="button" class="btn" onclick="window.location = '<?php echo $home?>'"><?php echo $button_cancel?></button>
                         </div>
                         <!-- / Create Account: Form Actions -->
@@ -235,6 +262,10 @@ $('select[name=\'country_id\']').bind('change', function() {
             dataType: 'json',
             success: function(json) {
                 alert(json);
+                
+                $('#updatePassword').each(function(){
+                    this.reset();
+                });
             }
         });
     }

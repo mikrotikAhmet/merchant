@@ -2,10 +2,29 @@
 
 class ModelAccountCustomer extends Model {
 
-    
+    public function editCustomerAccount($data = array()){
+        
+        $this->db->query("UPDATE " . DB_PREFIX . "customer SET email = '" . $this->db->escape($data['email']) . "' WHERE customer_id = '" . (int) $this->customer->getId() . "'");
+        
+        $this->db->query("UPDATE " . DB_PREFIX . "customer_account SET decline_cvc = '" . (isset($data['decline_cvc']) ? (int)$data['decline_cvc'] : 0) . "', decline_zip = '".(isset($data['decline_zip']) ? (int)$data['decline_zip'] : 0)."' WHERE customer_id = '" . (int) $this->customer->getId() . "'");
+        
+        $this->db->query("UPDATE " . DB_PREFIX . "address SET country_id = '" . (int) $data['country_id'] . "',zone_id = '" . (int) $data['zone_id'] . "' WHERE customer_id = '" . (int) $this->customer->getId() . "' AND address_id = '".(int) $this->customer->getAddressId()."'");
+    }
 
     public function editToken($customer_id, $token) {
         $this->db->query("UPDATE " . DB_PREFIX . "customer SET token = '" . $this->db->escape($token) . "' WHERE customer_id = '" . (int) $customer_id . "'");
+    }
+    
+    public function updatePassword($oldpassword, $newpassword) {
+        
+        $customer_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE (password = SHA1(CONCAT(salt, SHA1(CONCAT(salt, SHA1('" . $this->db->escape($oldpassword) . "'))))) OR password = '" . $this->db->escape(md5($oldpassword)) . "') AND status = '1'");
+        
+        if ($customer_query->row) {
+            $this->db->query("UPDATE " . DB_PREFIX . "customer SET salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($newpassword)))) . "' WHERE customer_id = '" . (int) $this->customer->getId() . "'");
+            return $customer_query->row;
+        } else {
+            return false;
+        }
     }
 
     public function getCustomer($customer_id) {

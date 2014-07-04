@@ -172,6 +172,28 @@ class Customer {
         }
     }
     
+    public function getDeclineCVC() {
+        
+        $query = $this->db->query("SELECT decline_cvc FROM " . DB_PREFIX . "customer_account WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['decline_cvc'];
+        } else {
+            return false;
+        }
+    }
+    
+    public function getDeclineZIP() {
+        
+        $query = $this->db->query("SELECT decline_zip FROM " . DB_PREFIX . "customer_account WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['decline_zip'];
+        } else {
+            return false;
+        }
+    }
+    
     public function getCustomerZoneId() {
         
         $query = $this->db->query("SELECT zone_id FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int) $this->customer_id . "'");

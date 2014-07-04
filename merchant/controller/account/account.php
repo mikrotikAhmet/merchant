@@ -24,6 +24,8 @@ if (!defined('DIR_APPLICATION'))
  * @author ahmet
  */
 class ControllerAccountAccount extends Controller {
+    
+    private $error = array();
 
     public function index() {
 
@@ -31,6 +33,29 @@ class ControllerAccountAccount extends Controller {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
+        $this->getForm();
+    }
+    
+    public function update() {
+        $this->language->load('account/account');
+
+        $this->document->setTitle($this->language->get('heading_title'));
+
+        $this->load->model('account/customer');
+
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+            $this->model_account_customer->editCustomerAccount($this->request->post);
+
+            $this->session->data['success'] = $this->language->get('text_success');
+
+            $this->redirect($this->url->link('account/account', 'token=' . $this->session->data['token'], 'SSL'));
+        }
+
+        $this->getForm();
+    }
+    
+    protected function getForm(){
+        
         $this->data['text_select'] = $this->language->get('text_select');
         $this->data['text_none'] = $this->language->get('text_none');
         $this->data['text_decline_cvc'] = $this->language->get('text_decline_cvc');
@@ -49,7 +74,27 @@ class ControllerAccountAccount extends Controller {
 
         $this->data['tab_general'] = $this->language->get('tab_general');
         
+        $this->data['action'] = $this->url->link('account/account/update', 'token=' . $this->session->data['token'], 'SSL');
+        
         $this->data['token'] = $this->session->data['token'];
+        
+        if (isset($this->error['email'])) {
+            $this->data['error_email'] = $this->error['email'];
+        } else {
+            $this->data['error_email'] = '';
+        }
+        
+        if (isset($this->error['country_id'])) {
+            $this->data['error_country'] = $this->error['country_id'];
+        } else {
+            $this->data['error_country'] = '';
+        }
+        
+        if (isset($this->error['zone_id'])) {
+            $this->data['error_zone'] = $this->error['zone_id'];
+        } else {
+            $this->data['error_zone'] = '';
+        }
 
         $this->data['breadcrumbs'] = array();
 
@@ -85,13 +130,22 @@ class ControllerAccountAccount extends Controller {
 
         $this->response->setOutput($this->render());
     }
-    
+
+
     public function updatePassword(){
         $json = array();
         
         $data = $this->request->post;
         
+        $this->load->model('account/customer');
         
+        $result = $this->model_account_customer->updatePassword($data['oldpassword'],$data['newpassword']);
+        
+        if ($result){
+            $json = $this->language->get('password_success');
+        } else {
+            $json = $this->language->get('password_faild');
+        }
         
         $this->response->setOutput(json_encode($json));
         
@@ -120,6 +174,45 @@ class ControllerAccountAccount extends Controller {
         }
 
         $this->response->setOutput(json_encode($json));
+    }
+    
+    protected function validateForm() {
+
+        if (!$this->request->post['country_id']) {
+            $this->error['country_id'] = $this->language->get('error_country');
+        }
+
+        if (!$this->request->post['zone_id']) {
+            $this->error['zone_id'] = $this->language->get('error_zone');
+        }
+
+        if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['email'])) {
+            $this->error['email'] = $this->language->get('error_email');
+        }
+        
+        $customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);
+
+        $current_customer = $this->customer->getId();
+        
+        if (!isset($current_customer)) {
+            if ($customer_info) {
+                $this->error['warning'] = $this->language->get('error_exists');
+            }
+        } else {
+            if ($customer_info && ($current_customer != $customer_info['customer_id'])) {
+                $this->error['warning'] = $this->language->get('error_exists');
+            }
+        }
+
+        if ($this->error && !isset($this->error['warning'])) {
+            $this->error['warning'] = $this->language->get('error_warning');
+        }
+
+        if (!$this->error) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

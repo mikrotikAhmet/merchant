@@ -44,6 +44,9 @@ $_['text_disabled']                 = 'Disabled';
 $_['text_select']                 = '--Select an Option--';
 $_['text_none']                 = '--None--';
 $_['text_home']                 = 'Home';
+$_['password_success'] = 'Your Password has been updated successfuly.';
+$_['password_faild'] = 'Your old password did not match with your current password.';
+
 
 // Button
 $_['button_reset']                 = 'Reset';
