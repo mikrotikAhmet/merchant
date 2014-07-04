@@ -207,8 +207,44 @@
                 
                 <!-- / Customer General Transfers -->
                 <div class="tab-pane" id="tab-transfer">
+                    <form class="form-horizontal" id="transfer">
+                        <!-- Create Account: Test Secret Key -->
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword"><i class="icon-home"></i> Bank Accounts</label>
+                            <div class="controls">
+                                <button class="btn" type="button"><i class="icon-plus"></i> Add Bank Account</button>
+                            </div>
+                            <br/>
+                            <table class="table table-bordered">
+		              <thead>
+		                <tr>
+		                  <th>Bank Name</th>
+		                  <th>Settlement Currency</th>
+		                  <th>Account Holder</th>
+		                  <th>IBAN</th>
+                                  <th>SWIFT</th>
+                                  <th>Status</th>
+                                  <td></td>
+		                </tr>
+		              </thead>
+		              <tbody>
+		                <?php foreach ($banks as $bank) { ?>
+                                <tr>
+                                    <td><?php echo $bank['bank_name']?></td>
+                                    <td><?php echo $bank['settlement_currency']?></td>
+                                    <td><?php echo $bank['account_holder']?></td>
+                                    <td><?php echo $bank['iban']?></td>
+                                    <td><?php echo $bank['swift']?></td>
+                                    <td><?php echo $bank['verified']?></td>
+                                    <td></td>
+                                </tr>
+                                <?php } ?>
+		              </tbody>
+		            </table>
+                        </div>
+                        <!-- / Create Account: Test Secret Key -->
+                    </form>
                     
-                    Bank Transfers
                     
                 </div>
                 <!-- / Customer General Transfers -->

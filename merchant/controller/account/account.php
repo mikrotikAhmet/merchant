@@ -123,9 +123,25 @@ class ControllerAccountAccount extends Controller {
 
         $this->data['countries'] = $this->model_localisation_country->getCountries();
 
-
-
         $this->data['home'] = $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL');
+        
+        // Load Customer Banks
+        $this->data['banks'] = array();
+        
+        $this->load->model('account/customer');
+        
+        $banks = $this->model_account_customer->getCustomerBanks($this->customer->getId());
+        
+        foreach ($banks as $bank){
+            $this->data['banks'][] = array(
+                'bank_name'=>$bank['bank_name'],
+                'settlement_currency'=>$bank['settlement_currency'],
+                'account_holder'=>$bank['account_holder'],
+                'iban'=>$bank['iban'],
+                'swift'=>$bank['swift'],
+                'verified'=>($bank['verified'] ? '<span class="btn btn-success">'.$this->language->get('text_verified').'</span>' : '<span class="btn btn-danger">'.$this->language->get('text_pending').'</span>')
+            );
+        }
 
         $this->template = 'account/account.tpl';
         $this->children = array(
