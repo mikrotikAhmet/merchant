@@ -55,11 +55,16 @@ class ControllerAccountAccount extends Controller {
     }
 
     protected function getForm() {
+        
+        $this->data['title_bank'] = $this->language->get('title_bank');
+
+        $this->data['text_information_bank'] = $this->language->get('text_information_bank');
 
         $this->data['text_select'] = $this->language->get('text_select');
         $this->data['text_none'] = $this->language->get('text_none');
         $this->data['text_decline_cvc'] = $this->language->get('text_decline_cvc');
         $this->data['text_decline_zip'] = $this->language->get('text_decline_zip');
+        $this->data['text_no_bank'] = $this->language->get('text_no_bank');
 
         $this->data['entry_fullname'] = $this->language->get('entry_fullname');
         $this->data['entry_email'] = $this->language->get('entry_email');
@@ -71,11 +76,28 @@ class ControllerAccountAccount extends Controller {
         $this->data['entry_test_pk'] = $this->language->get('entry_test_pk');
         $this->data['entry_live_sk'] = $this->language->get('entry_live_sk');
         $this->data['entry_live_pk'] = $this->language->get('entry_live_pk');
+        
+         $this->data['entry_currency'] = $this->language->get('entry_currency');
+        $this->data['entry_bank'] = $this->language->get('entry_bank');
+        $this->data['entry_holder_name'] = $this->language->get('entry_holder_name');
+        $this->data['entry_iban'] = $this->language->get('entry_iban');
+        $this->data['entry_bic'] = $this->language->get('entry_bic');
+        
+        // Banking Form Variables
+        
+        $this->data['column_bank_name'] = $this->language->get('column_bank_name');
+        $this->data['column_currency'] = $this->language->get('column_currency');
+        $this->data['column_ahn'] = $this->language->get('column_ahn');
+        $this->data['column_iban'] = $this->language->get('column_iban');
+        $this->data['column_swift'] = $this->language->get('column_swift');
+        $this->data['column_status'] = $this->language->get('column_status');
 
         $this->data['button_update'] = $this->language->get('button_update');
         $this->data['button_cancel'] = $this->language->get('button_cancel');
         $this->data['button_password'] = $this->language->get('button_password');
         $this->data['button_enable'] = $this->language->get('button_enable');
+        $this->data['button_add_new'] = $this->language->get('button_add_new');
+        $this->data['button_remove'] = $this->language->get('button_remove');
 
         $this->data['tab_general'] = $this->language->get('tab_general');
 
@@ -134,14 +156,22 @@ class ControllerAccountAccount extends Controller {
         
         foreach ($banks as $bank){
             $this->data['banks'][] = array(
+                'customer_bank_id'=>$bank['customer_bank_id'],
                 'bank_name'=>$bank['bank_name'],
                 'settlement_currency'=>$bank['settlement_currency'],
                 'account_holder'=>$bank['account_holder'],
                 'iban'=>$bank['iban'],
                 'swift'=>$bank['swift'],
+                'status'=>$bank['verified'],
                 'verified'=>($bank['verified'] ? '<span class="btn btn-success">'.$this->language->get('text_verified').'</span>' : '<span class="btn btn-danger">'.$this->language->get('text_pending').'</span>')
             );
         }
+        
+        // Load Currencies
+        
+        $this->load->model('localisation/currency');
+        
+        $this->data['currencies'] = $this->model_localisation_currency->getCurrencies();
 
         $this->template = 'account/account.tpl';
         $this->children = array(
@@ -263,6 +293,30 @@ class ControllerAccountAccount extends Controller {
         
         
                 
+        $this->response->setOutput(json_encode($json));
+    }
+    
+    public function addBank() {
+        $json = array();
+
+        $data = $this->request->post;
+
+        $this->load->model('account/customer');
+
+        $this->model_account_customer->addBank($data);
+
+        $this->response->setOutput(json_encode($json));
+    }
+    
+    public function removeBank() {
+        $json = array();
+
+        $bank_id = $this->request->get['customer_bank_id'];
+
+        $this->load->model('account/customer');
+
+        $this->model_account_customer->removeBank($bank_id);
+
         $this->response->setOutput(json_encode($json));
     }
 

@@ -13,7 +13,6 @@
  * @since		Version 1.0
  * @filesource
  */
-
 // ------------------------------------------------------------------------
 
 /**
@@ -29,10 +28,13 @@
  */
 // Heading
 $_['heading_title'] = 'Acount Settings';
+$_['title_bank'] = 'Enter you banking information.';
 
 // Text
+$_['text_information_bank'] = '<br/>To manage your money, you have to specify at least 1(one) bank information.';
 $_['text_decline_cvc'] = 'Decline charges that fail CVC verification.';
 $_['text_decline_zip'] = 'Decline charges that fail Zip Code verification.';
+$_['text_no_bank'] = 'You do not have any Bank Information yet. <a data-toggle="modal" role="button" href="#createBank">Create one here.</a> or just click on <b>Add New</b> button below.';
 
 // Entry
 $_['entry_fullname'] = 'Full Name';
@@ -44,11 +46,24 @@ $_['entry_test_sk'] = 'Test Secret Key';
 $_['entry_test_pk'] = 'Test Public Key';
 $_['entry_live_sk'] = 'Live Secret Key';
 $_['entry_live_pk'] = 'Live Public Key';
+$_['entry_currency'] = 'Settlement Curreny :';
+$_['entry_bank'] = 'Bank Name:';
+$_['entry_holder_name'] = 'Account Holder Name:';
+$_['entry_iban'] = 'IBAN:';
+$_['entry_bic'] = 'Swift Code (BIC):';
+
+// Columns
+$_['column_bank_name']         = 'Bank Name';
+$_['column_currency']         = 'Settlement Currency';
+$_['column_ahn']         = 'Account Holder Name';
+$_['column_iban']         = 'IBAN';
+$_['column_swift']         = 'SWFIT';
+$_['column_status']         = 'Status';
 
 
 // Error
-$_['error_exists']          = 'Warning: E-Mail Address is already registered!';
-$_['error_email']           = 'E-Mail Address does not appear to be valid!';
-$_['error_country']         = 'Please select a country!';
-$_['error_zone']            = 'Please select a region / state!';
+$_['error_exists'] = 'Warning: E-Mail Address is already registered!';
+$_['error_email'] = 'E-Mail Address does not appear to be valid!';
+$_['error_country'] = 'Please select a country!';
+$_['error_zone'] = 'Please select a region / state!';
 

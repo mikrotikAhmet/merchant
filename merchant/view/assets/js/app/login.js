@@ -6,20 +6,28 @@ $(document).ready(function(){
     $("#authenticate").submit(function(){	
         username= $("#username").val();
         password= $("#password").val();
+        
+        var data= {
+
+            "username": username,
+
+            "password": password
+
+            };
+        
         $.ajax({
-            type: "GET",
-            url: "http://api.semitepayment.com/index.php?route=authentication/auth/authenticate&username=",
-            dataType: "jsonp",
-            data : { username: username, password : password },
-            contentType: "application/json; charset=utf-8",
-            ProcessData: true,
-            success: function(data){
-                alert();
+            type: 'GET',
+            url: 'http://api.semitepayment.com/index.php?route=authentication/auth/authenticate',
+            crossDomain: true,
+            dataType: 'jsonp',
+            data : data,
+            jsonpCallback: 'jsonpCallback',
+            success: function (response) {
+                alert('success--' + response);
             },
-            error: function(error){
-                console.log(error)
+            error: function (response) {
+                alert('error--'+response);
             }
-            
         });
         return false;
     });

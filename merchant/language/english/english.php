@@ -56,6 +56,8 @@ $_['button_update']                 = 'Update Changes';
 $_['button_cancel']                 = 'Cancel';
 $_['button_enable']                 = 'Enable';
 $_['button_password']                 = 'Change Password';
+$_['button_add_new']                 = 'Add New';
+$_['button_remove']                 = 'Remove';
 
 // Tabs
 $_['tab_general'] = 'General';

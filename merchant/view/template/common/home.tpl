@@ -53,7 +53,10 @@
             <div class="pull-right text-right">
                 <?php echo $text_balance?><br>
                 <b class="huge"><?php echo $balance?></b><br>
-                <span class="caps muted"></span>
+                <span class="caps muted">
+                    <a href="">Deposit</a>-
+                    <a href="">Withdraw</a>
+                </span>
             </div>
         </div>
         <!-- / Information Boxes: Balance -->
