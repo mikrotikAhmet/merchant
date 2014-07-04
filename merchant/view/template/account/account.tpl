@@ -204,6 +204,14 @@
                     
                 </div>
                 <!-- / Customer General API KEY --> 
+                
+                <!-- / Customer General Transfers -->
+                <div class="tab-pane" id="tab-transfer">
+                    
+                    Bank Transfers
+                    
+                </div>
+                <!-- / Customer General Transfers -->
 
             </div>
             <!-- / Account: Settings -->
