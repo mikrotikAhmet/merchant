@@ -41,11 +41,16 @@ $_['text_yes']                      = 'Yes';
 $_['text_no']                       = 'No';
 $_['text_enabled']                  = 'Enabled';
 $_['text_disabled']                 = 'Disabled';
+$_['text_select']                 = '--Select an Option--';
+$_['text_none']                 = '--None--';
 $_['text_home']                 = 'Home';
 
 // Button
 $_['button_reset']                 = 'Reset';
+$_['button_update']                 = 'Update Changes';
 $_['button_cancel']                 = 'Cancel';
+$_['button_enable']                 = 'Enable';
+$_['button_password']                 = 'Change Password';
 
 // Tabs
 $_['tab_general'] = 'General';

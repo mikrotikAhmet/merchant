@@ -48,46 +48,40 @@
                 <div class="tab-pane active" id="tab-general">
                     <!-- Create Account: Form -->
                     <form class="form-horizontal">
-
-                        <!-- Create Account: Top Information -->
-                        <div class="top-info">
-
-                            <!-- Alert -->
-                            <div class="alert alert-info">
-                                <a class="close" data-dismiss="alert">&times;</a>
-                                <i class="icon-info"></i> You can add users through this panel
-                            </div>
-                            <!-- / Alert -->
-
-                        </div>
-                        <!-- / Create Account: Top Information -->
-
                         <!-- Create Account: Form Name -->
                         <div class="control-group">
-                            <label class="control-label" for="inputName"><i class="icon-user"></i> Full Name</label>
+                            <label class="control-label" for="inputName"><i class="icon-user"></i> <?php echo $entry_fullname?></label>
                             <div class="controls">
-                                <input type="text" id="inputName" placeholder="Full Name" disabled="disabled" value="<?php echo $this->customer->getUsername()?>">
+                                <input type="text" id="inputName" placeholder="<?php echo $entry_fullname?>" disabled="disabled" value="<?php echo $this->customer->getUsername()?>">
                             </div>
                         </div>
                         <!-- / Create Account: Form Name -->
 
                         <!-- Create Account: Form Email -->
                         <div class="control-group">
-                            <label class="control-label" for="inputUsername"><i class="icon-user"></i> EMail</label>
+                            <label class="control-label" for="inputUsername"><i class="icon-user"></i> <?php echo $entry_email?></label>
                             <div class="controls">
-                                <input type="text" id="inputUsername" placeholder="EMail" value="<?php echo $this->customer->getEmail()?>">
+                                <input type="text" id="inputUsername" name="email" placeholder="<?php echo $entry_email?>" value="<?php echo $this->customer->getEmail()?>">
                             </div>
                         </div>
                         <!-- / Create Account: Form Email -->
 
                         <!-- Create Account: Form Nationality -->
                         <div class="control-group">
-                            <label class="control-label" for="inputNationality"><i class="icon-flag"></i> Country</label>
+                            <label class="control-label" for="inputNationality"><i class="icon-flag"></i> <?php echo $entry_country?></label>
                             <div class="controls">
-                                <select class="span3">
+                                <select name="country_id" class="span3" title="countries">
+                                    <option value=""><?php echo $text_select?></option>
                                     <?php foreach ($countries as $country) { ?>
-                                    <option value="<?php echo $country['country_id']?>"><?php echo $country['name']?></option>
+                                    <?php if ($country_id == $country['country_id']) { ?>
+                                    <option value="<?php echo $country['country_id']?>" selected="selected" ><?php echo $country['name']?></option>
+                                    <?php } else { ?>
+                                    <option value="<?php echo $country['country_id']?>" ><?php echo $country['name']?></option>
                                     <?php } ?>
+                                    <?php } ?>
+                                </select>
+                                <select name="zone_id" class="span3" title="zones" id="zones">
+                                    <option value=""><?php echo $text_select?></option>
                                 </select>
                             </div>
                         </div>
@@ -95,42 +89,42 @@
 
                         <!-- Create Account: Form Password -->
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword"><i class="icon-key"></i> Password</label>
+                            <label class="control-label" for="inputPassword"><i class="icon-key"></i> <?php echo $entry_password?></label>
                             <div class="controls">
-                                <button class="btn" type="button"><i class="icon-unlock"></i> Change password...</button>
+                                <a class="btn" href="#password" data-toggle="modal"><i class="icon-unlock"></i> <?php echo $button_password?></a>
                             </div>
                         </div>
                         <!-- / Create Account: Form Password -->
-                        
+
                         <!-- Create Account: 2 Step Authentication -->
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword"><i class="icon-shield"></i> Two-step Key</label>
+                            <label class="control-label" for="inputPassword"><i class="icon-shield"></i> <?php echo $entry_two_step?></label>
                             <div class="controls">
-                                <button class="btn" type="button"><i class="icon-shield"></i> Enable...</button>
+                                <button class="btn" type="button"><i class="icon-shield"></i> <?php echo $button_enable?></button>
                             </div>
                         </div>
                         <!-- / Create Account: 2 Step Authentication -->
                         <!-- Create Account: Charges Settings -->
                         <div class="control-group">
-                                <label class="control-label" for="inputInline"></label>
-                                <div class="controls">
-                                  <label class="checkbox">
-                                        <input type="checkbox" value="">
-                                          Decline charges that fail CVC verification.				
+                            <label class="control-label" for="inputInline"></label>
+                            <div class="controls">
+                                <label class="checkbox">
+                                    <input type="checkbox" name="decline_cvc" value="1">
+                                    <?php echo $text_decline_cvc?>				
                                 </label>
-                                    <label class="checkbox">
-                                        <input type="checkbox" value="">
-                                          Decline charges that fail Zip Code verification.				
+                                <label class="checkbox">
+                                    <input type="checkbox" name="decline_zip" value="1">
+                                    <?php echo $text_decline_zip?>				
                                 </label>
-                                        
-                                </div>
+
+                            </div>
                         </div>	
                         <!-- / Create Account: Charges Settings -->
 
                         <!-- Create Account: Form Actions -->
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Update Changes</button>
-                            <button type="button" class="btn" onclick="window.location='<?php echo $home?>'">Cancel</button>
+                            <button type="submit" class="btn btn-primary"><?php echo $button_update?></button>
+                            <button type="button" class="btn" onclick="window.location = '<?php echo $home?>'"><?php echo $button_cancel?></button>
                         </div>
                         <!-- / Create Account: Form Actions -->
 
@@ -148,4 +142,101 @@
     </div>
 </div>
 <!-- / Content Container -->
+
+<!-- Moldule: Password -->
+<div id="password" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Changing Password" aria-hidden="true">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel"><i class="icon-key"></i> Change Password</h3>
+    </div>
+
+    <div class="modal-body">
+
+        <form class="form-horizontal" id="updatePassword">
+
+            <div class="control-group">
+                <label class="control-label" for="inputName"><i class="icon-key"></i> Old Password</label>
+                <div class="controls">
+                    <input type="password" name="oldpassword" id="inputName" placeholder="">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="inputUsername"><i class="icon-key"></i> New Password</label>
+                <div class="controls">
+                    <input type="password" name="newpassword" id="inputUsername" placeholder="">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+
+        <button class="btn btn-primary" data-dismiss="modal" onclick="updatePassword()"><?php echo $button_update?></button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $button_cancel?></button>
+
+    </div>
+
+</div> 
+<!-- / Module: Password -->
+<script type="text/javascript"><!--
+$('select[name=\'country_id\']').bind('change', function() {
+
+        $.ajax({
+            url: 'index.php?route=account/account/country&token=<?php echo $token; ?>&country_id=' + this.value,
+            dataType: 'json',
+            beforeSend: function() {
+                //$('select[name=\'country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
+            },
+            complete: function() {
+                $('.wait').remove();
+            },
+            success: function(json) {
+                html = '<option value=""><?php echo $text_select; ?></option>';
+
+                if (json['zone'] != '') {
+                    for (i = 0; i < json['zone'].length; i++) {
+                        html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+
+                        if (json['zone'][i]['zone_id'] == '<?php echo $zone_id; ?>') {
+                            html += ' selected="selected"';
+                        }
+
+                        html += '>' + json['zone'][i]['name'] + '</option>';
+                    }
+                } else {
+                    html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+                }
+
+                $('select[name=\'zone_id\']').html(html);
+                $('select[name=\'zone_id\']').css('display', 'inline');
+                $('#zones_chosen').hide();
+
+
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+
+    $('select[name=\'country_id\']').trigger('change');
+
+
+    function updatePassword() {
+
+        var data = $('#updatePassword').serialize();
+        
+        $.ajax({
+            url: 'index.php?route=account/account/updatePassword&token=<?php echo $token; ?>',
+            data : data,
+            type : 'POST',
+            dataType: 'json',
+            success: function(json) {
+                alert(json);
+            }
+        });
+    }
+//--></script> 
 <?php echo $footer?>

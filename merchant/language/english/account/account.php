@@ -30,3 +30,14 @@
 // Heading
 $_['heading_title'] = 'Acount Settings';
 
+// Text
+$_['text_decline_cvc'] = 'Decline charges that fail CVC verification.';
+$_['text_decline_zip'] = 'Decline charges that fail Zip Code verification.';
+
+// Entry
+$_['entry_fullname'] = 'Full Name';
+$_['entry_email'] = 'Email';
+$_['entry_country'] = 'Country & State';
+$_['entry_password'] = 'Password';
+$_['entry_two_step'] = 'Two-step Key';
+

@@ -161,6 +161,28 @@ class Customer {
         return $this->address_id;
     }
     
+    public function getCustomerCountryId() {
+        
+        $query = $this->db->query("SELECT country_id FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['country_id'];
+        } else {
+            return false;
+        }
+    }
+    
+    public function getCustomerZoneId() {
+        
+        $query = $this->db->query("SELECT zone_id FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int) $this->customer_id . "'");
+        
+        if ($query){
+            return $query->row['zone_id'];
+        } else {
+            return false;
+        }
+    }
+    
     public function getAvatar(){
         return false;
     }
