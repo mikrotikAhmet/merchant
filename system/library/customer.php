@@ -211,7 +211,9 @@ class Customer {
 
     public function getBalance() {
         $query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "'");
-
+        
+        $this->db->query("UPDATE ".DB_PREFIX."customer_account SET balance ='".(float) $query->row['total']."' WHERE customer_id = '".(int) $this->customer_id."'");
+        
         return $query->row['total'];
     }
     

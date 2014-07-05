@@ -377,5 +377,19 @@ class ModelAccountCustomer extends Model {
         $this->db->query("UPDATE ".DB_PREFIX."customer_account SET live_public_key = '".$this->db->escape($key)."' WHERE customer_id = '".(int) $this->customer->getId()."'");
         
     }
+    
+    public function getStatement(){
+        
+        $query = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_statement WHERE customer_id = '".(int) $this->customer->getId()."'");
+        
+        return $query->row;
+    }
+    
+    public function setSettlement($data=array()){
+        
+        $this->db->query("DELETE FROM ".DB_PREFIX."customer_statement WHERE customer_id = '".(int) $this->customer->getId()."'");
+        
+        $this->db->query("INSERT INTO ".DB_PREFIX."customer_statement SET customer_id = '".(int) $this->customer->getId()."',mail_me = '".(isset($data['mail_me']) ? (int) $data['mail_me'] : 0)."', mail_customer = '".(isset($data['mail_customer']) ? (int) $data['mail_customer'] : 0)."', business_name = '".$this->db->escape($data['business_name'])."', business_url = '".$this->db->escape($data['business_url'])."', business_email = '".$this->db->escape($data['business_email'])."'");
+    }
 
 }

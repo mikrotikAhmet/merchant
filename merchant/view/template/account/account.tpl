@@ -267,58 +267,56 @@
                     <form class="form-horizontal" id="email">
                         <!-- Create Account: Email ME -->
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword">Email me for</label>
+                            <label class="control-label" for="inputPassword"><?php echo $entry_email_me?></label>
                             <div class="controls">
                                 <label class="checkbox">
-                                    <input type="checkbox" name="decline_cvc" value="1" checked>
-                                    Successful Payment				
+                                    <input type="checkbox" name="mail_me" value="1" <?php echo ($statement['mail_me'] ? 'checked' : null)?>>
+                                    <?php echo $text_success_payment?>				
                                 </label>
                             </div>
                         </div>
                         <!-- / Create Account: Email ME -->
                         <!-- Create Account: Email Customer -->
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword">Email customers for</label>
+                            <label class="control-label" for="inputPassword"><?php echo $entry_email_customer?></label>
                             <div class="controls">
                                 <label class="checkbox">
-                                    <input type="checkbox" name="decline_cvc" value="1">
-                                    Successful Payment				
+                                    <input type="checkbox" name="mail_customer" value="1" <?php echo ($statement['mail_customer'] ? 'checked' : null)?>>
+                                    <?php echo $text_success_payment?>				
                                 </label>
                             </div>
                         </div>
                         <!-- / Create Account: Email Customer -->
                         <!-- Create Account: Business Name -->
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword">Business Name</label>
+                            <label class="control-label" for="inputPassword"><?php echo $entry_business_name?></label>
                             <div class="controls">
-                                <input type="text" id="business_name" name="business_name" placeholder="" value="">
+                                <input type="text" id="business_name" name="business_name" placeholder="" value="<?php echo $statement['business_name']?>">
                             </div>
                         </div>
                         <!-- / Create Account: Business Name -->
                         <!-- Create Account: Business URL -->
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword">Business URL</label>
+                            <label class="control-label" for="inputPassword"><?php echo $entry_business_url?></label>
                             <div class="controls">
-                                <input type="text" id="business_url" name="business_url" placeholder="" value="">
+                                <input type="text" id="business_url" name="business_url" placeholder="" value="<?php echo $statement['business_url']?>">
                             </div>
                         </div>
                         <!-- / Create Account: Business URL -->
                         <!-- Create Account: Business Email -->
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword">Business Email</label>
+                            <label class="control-label" for="inputPassword"><?php echo $entry_business_mail?></label>
                             <div class="controls">
-                                <input type="text" id="business_email" name="business_email" placeholder="" value="">
+                                <input type="text" id="business_email" name="business_email" placeholder="" value="<?php echo $statement['business_email']?>">
                             </div>
                         </div>
-                        <!-- / Create Account: Business Email -->
-                        <!-- Create Account: Business Logo -->
-                        <div class="control-group">
-                            <label class="control-label" for="inputPassword">Logo</label>
-                            <div class="controls">
-                                <input type="text" id="business_email" name="business_email" placeholder="" value="">
-                            </div>
+                        <!-- Create Account: Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" onclick="createSettlement()" class="btn btn-primary"><?php echo $button_update?></button>
+                            <button type="button" class="btn btn-info" onclick=""><i class="icon-eye-open"></i> <?php echo $button_preview?></button>
+                            <button type="button" class="btn" onclick="window.location = '<?php echo $home?>'"><?php echo $button_cancel?></button>
                         </div>
-                        <!-- / Create Account: Business Logo -->
+                        <!-- / Create Account: Form Actions -->
                     </form>
                 </div>
                 <!-- /Customer General Email -->
@@ -547,5 +545,21 @@ function removeBank(bank_id){
             }
         });
 }
+
+    function createSettlement(){
+        
+        var settlement = $('#email').serialize();
+        
+        $.ajax({
+            url: 'index.php?route=account/account/settlement&token=<?php echo $token; ?>',
+            dataType: 'json',
+            data : settlement,
+            type : 'POST',
+            success: function(json) {              
+                alert('Your Statement has been saved.');
+            }
+        });
+        
+    }
 //--></script> 
 <?php echo $footer?>

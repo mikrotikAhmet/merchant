@@ -35,6 +35,7 @@ $_['text_information_bank'] = '<br/>To manage your money, you have to specify at
 $_['text_decline_cvc'] = 'Decline charges that fail CVC verification.';
 $_['text_decline_zip'] = 'Decline charges that fail Zip Code verification.';
 $_['text_no_bank'] = 'You do not have any Bank Information yet. <a data-toggle="modal" role="button" href="#createBank">Create one here.</a> or just click on <b>Add New</b> button below.';
+$_['text_success_payment'] = 'Successful Payments';
 
 // Entry
 $_['entry_fullname'] = 'Full Name';
@@ -51,6 +52,11 @@ $_['entry_bank'] = 'Bank Name:';
 $_['entry_holder_name'] = 'Account Holder Name:';
 $_['entry_iban'] = 'IBAN:';
 $_['entry_bic'] = 'Swift Code (BIC):';
+$_['entry_email_me'] = 'Email me for';
+$_['entry_email_customer'] = 'Email customers for';
+$_['entry_business_name'] = 'Business Name';
+$_['entry_business_url'] = 'Business URL';
+$_['entry_business_mail'] = 'Business EMail';
 
 // Columns
 $_['column_bank_name']         = 'Bank Name';

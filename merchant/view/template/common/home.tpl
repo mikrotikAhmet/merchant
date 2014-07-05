@@ -54,8 +54,8 @@
                 <?php echo $text_balance?><br>
                 <b class="huge"><?php echo $balance?></b><br>
                 <span class="caps muted">
-                    <a href="">Deposit</a>-
-                    <a href="">Withdraw</a>
+                    <a href="<?php echo $deposit?>"><?php echo $button_deposit?></a>-
+                    <a href="<?php echo $withdraw?>"><?php echo $button_withdraw?></a>
                 </span>
             </div>
         </div>

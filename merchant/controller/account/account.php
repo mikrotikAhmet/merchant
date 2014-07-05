@@ -65,6 +65,7 @@ class ControllerAccountAccount extends Controller {
         $this->data['text_decline_cvc'] = $this->language->get('text_decline_cvc');
         $this->data['text_decline_zip'] = $this->language->get('text_decline_zip');
         $this->data['text_no_bank'] = $this->language->get('text_no_bank');
+        $this->data['text_success_payment'] = $this->language->get('text_success_payment');
 
         $this->data['entry_fullname'] = $this->language->get('entry_fullname');
         $this->data['entry_email'] = $this->language->get('entry_email');
@@ -83,6 +84,12 @@ class ControllerAccountAccount extends Controller {
         $this->data['entry_iban'] = $this->language->get('entry_iban');
         $this->data['entry_bic'] = $this->language->get('entry_bic');
         
+        $this->data['entry_email_me'] = $this->language->get('entry_email_me');
+        $this->data['entry_email_customer'] = $this->language->get('entry_email_customer');
+        $this->data['entry_business_name'] = $this->language->get('entry_business_name');
+        $this->data['entry_business_url'] = $this->language->get('entry_business_url');
+        $this->data['entry_business_mail'] = $this->language->get('entry_business_mail');
+        
         // Banking Form Variables
         
         $this->data['column_bank_name'] = $this->language->get('column_bank_name');
@@ -98,6 +105,7 @@ class ControllerAccountAccount extends Controller {
         $this->data['button_enable'] = $this->language->get('button_enable');
         $this->data['button_add_new'] = $this->language->get('button_add_new');
         $this->data['button_remove'] = $this->language->get('button_remove');
+        $this->data['button_preview'] = $this->language->get('button_preview');
 
         $this->data['tab_general'] = $this->language->get('tab_general');
 
@@ -172,6 +180,10 @@ class ControllerAccountAccount extends Controller {
         $this->load->model('localisation/currency');
         
         $this->data['currencies'] = $this->model_localisation_currency->getCurrencies();
+        
+        // Load Customer Statement
+        
+        $this->data['statement'] = $this->model_account_customer->getStatement();
 
         $this->template = 'account/account.tpl';
         $this->children = array(
@@ -316,6 +328,18 @@ class ControllerAccountAccount extends Controller {
         $this->load->model('account/customer');
 
         $this->model_account_customer->removeBank($bank_id);
+
+        $this->response->setOutput(json_encode($json));
+    }
+    
+    public function settlement() {
+        $json = array();
+
+        $settlement_data = $this->request->post;
+
+        $this->load->model('account/customer');
+
+        $this->model_account_customer->setSettlement($settlement_data);
 
         $this->response->setOutput(json_encode($json));
     }

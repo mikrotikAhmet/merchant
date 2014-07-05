@@ -40,6 +40,9 @@ class ControllerCommonHome extends Controller {
         $this->data['text_withdraw'] = $this->language->get('text_withdraw');
         $this->data['text_balance'] = $this->language->get('text_balance');
         
+        $this->data['button_withdraw'] = $this->language->get('button_withdraw');
+        $this->data['button_deposit'] = $this->language->get('button_deposit');
+        
         // Get Customer Balance
         
         $this->data['balance'] = $this->currency->format($this->customer->getBalance(), $this->config->get('config_currency'));
@@ -127,7 +130,10 @@ class ControllerCommonHome extends Controller {
         } else {
             $this->data['error_approved'] = '';
         }
-
+        
+        $this->data['deposit'] = $this->url->link('payment/deposit','token='.$this->session->data['token'],'SSL');
+        $this->data['withdraw'] = $this->url->link('payment/withdraw','token='.$this->session->data['token'],'SSL');
+        
         $this->template = 'common/home.tpl';
         $this->children = array(
             'common/header',

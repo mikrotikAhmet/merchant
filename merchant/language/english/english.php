@@ -58,6 +58,9 @@ $_['button_enable']                 = 'Enable';
 $_['button_password']                 = 'Change Password';
 $_['button_add_new']                 = 'Add New';
 $_['button_remove']                 = 'Remove';
+$_['button_preview']                 = 'Preview';
+$_['button_deposit']                 = 'Deposit';
+$_['button_withdraw']                 = 'Withdraw';
 
 // Tabs
 $_['tab_general'] = 'General';
