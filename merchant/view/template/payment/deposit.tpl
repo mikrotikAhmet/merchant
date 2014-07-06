@@ -72,6 +72,9 @@
                 <?php if ($error_amount) { ?>
                 <span class="error"><?php echo $error_amount; ?></span>
                 <?php } ?>
+                <?php if ($error_currency) { ?>
+                <span class="error"><?php echo $error_currency; ?></span>
+                <?php } ?>
             </div>
         </div>
         

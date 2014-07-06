@@ -213,6 +213,11 @@ class Currency {
     public function has($currency) {
         return isset($this->currencies[$currency]);
     }
+    
+    public function isCurrency($number)
+    {
+      return preg_match("/^-?[0-9]+(?:\.[0-9]{1,2})?$/", $number);
+    }
 
 }
 

@@ -223,6 +223,42 @@ class Customer {
         return $query->row;
     }
     
+    public function getTotalSuccessWithdraw() {
+        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '1'");
+
+        if($query->row['total']){ 
+        return $query->row['total'];
+        } else {
+            return 0;
+        }
+    }
+    
+    public function getTotalPendingWithdraw() {
+        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '0'");
+
+        if($query->row['total']){ 
+        return $query->row['total'];
+        } else {
+            return 0;
+        }
+    }
+    
+    public function getTotalTransaction() {
+        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '1'");
+
+        if($query->row['total']){ 
+        return $query->row['total'];
+        } else {
+            return 0;
+        }
+    }
+    
+    public function getNextWithdraw() {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '0' ORDER BY date_added DESC");
+
+        return $query->row;
+    }
+    
 
     public function getRewardPoints() {
         $query = $this->db->query("SELECT SUM(points) AS total FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int) $this->customer_id . "'");
@@ -270,6 +306,17 @@ class Customer {
             return $query->row['live_public_key'];
         } else {
             return false;
+        }
+    }
+    
+     public function getSettlementCurrency($bank_id) {
+        
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_bank WHERE customer_id = '" . (int) $this->customer_id . "' AND customer_bank_id = '".(int) $bank_id."'");
+        
+        if ($query){
+            return $query->row['settlement_currency'];
+        } else {
+            return $this->config->get('config_currency');
         }
     }
 

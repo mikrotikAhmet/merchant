@@ -48,7 +48,8 @@ $_['entry_amount'] = 'Amount:';
 // Error
 $_['error_cardholder'] = 'Please entry Credit Card Holder Name!';
 $_['error_cardnum'] = 'Please entry valid Credit Card Number!';
-$_['error_amount'] = 'Minumum Deposit Amount is 10EUR!';
+$_['error_amount'] = 'Minumum Deposit Amount is %s!';
 $_['error_cvv'] = 'Please entry vail CVV Number!';
 $_['error_expire'] = 'Please entry expire date!';
+$_['error_currency'] = 'Please entry valid Currency!';
 

@@ -52,6 +52,11 @@ class ModelPaymentTransaction extends Model {
         }
     }
     
+    public function addTransactionWithdraw($data){
+        
+        $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."'");
+    }
+    
     public function getRecentTransactions($limit = 10) {
         $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "customer_transaction` WHERE customer_id = '" . (int) $this->customer->getId() . "' ORDER BY date_added DESC LIMIT ".$limit);
         

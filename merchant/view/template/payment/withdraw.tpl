@@ -34,7 +34,7 @@
         </div>
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal pull-left" role="form" id="form">
         <div class="control-group">
-            <label for="bank_select" class="col-sm-3 control-label">Bank Account</label>
+            <label for="bank_select" class="col-sm-3 control-label"> <?php echo $entry_account?></label>
             <div class="controls">
                 <select name="bank_id">
                     <option value=""><?php echo $text_select?></option>
@@ -42,12 +42,21 @@
                     <option value="<?php echo $bank['customer_bank_id']?>"><?php echo $bank['bank_name']?> - <?php echo $bank['settlement_currency']?></option>
                     <?php } ?>
                 </select>
+                <?php if ($error_bank) { ?>
+                <span class="error"><?php echo $error_bank; ?></span>
+                <?php } ?>
             </div>
         </div>
         <div class="control-group">
-            <label for="bank_select" class="col-sm-3 control-label">Amount</label>
+            <label for="bank_select" class="col-sm-3 control-label"> <?php echo $entry_amount?></label>
             <div class="controls">
-                <input type="text" id="inputUsername" name="amount" placeholder="" value="">
+                <input type="text" id="inputUsername" name="amount" placeholder="" value="0">
+                <?php if ($error_amount) { ?>
+                <span class="error"><?php echo $error_amount; ?></span>
+                <?php } ?>
+                <?php if ($error_currency) { ?>
+                <span class="error"><?php echo $error_currency; ?></span>
+                <?php } ?>
             </div>
         </div> 
         

@@ -132,6 +132,12 @@ class ControllerPaymentDeposit extends Controller{
         } else {
             $this->data['error_amount'] = '';
         }
+        
+        if (isset($this->error['currency'])) {
+            $this->data['error_currency'] = $this->error['currency'];
+        } else {
+            $this->data['error_currency'] = '';
+        }
 
         $this->data['CARDINFO'] = $this->creditcard->GetCardInfo();
         $this->data['CCV'] = $this->creditcard;
@@ -167,6 +173,7 @@ class ControllerPaymentDeposit extends Controller{
             $this->data['amount'] = 0;
         }
         
+        
         $this->template = 'payment/deposit.tpl';
 
         $this->children = array(
@@ -186,8 +193,9 @@ class ControllerPaymentDeposit extends Controller{
             $this->error['cardnum'] = $this->language->get('error_cardnum');
         }
         
-        if ($this->request->post['amount'] < 10 || ($this->request->post['cardnum']) == 0) {
-            $this->error['amount'] = $this->language->get('error_amount');
+        if ($this->request->post['amount'] < 10 || ($this->request->post['amount']) == 0) {
+                       
+            $this->error['amount'] = sprintf($this->currency->format('10', $this->config->get('config_currency')),$this->language->get('error_amount'));
         }
         
         if ((utf8_strlen($this->request->post['expire_date']) < 1) || (utf8_strlen($this->request->post['expire_date']) > 5)) {
@@ -196,6 +204,10 @@ class ControllerPaymentDeposit extends Controller{
         
         if ((utf8_strlen($this->request->post['cvv']) < 1) || (utf8_strlen($this->request->post['cvv']) > 4)) {
             $this->error['cvv'] = $this->language->get('error_cvv');
+        }
+        
+        if ($this->request->post['amount'] > 10 && !$this->currency->isCurrency($this->request->post['amount'])){
+            $this->error['currency'] = $this->language->get('error_currency');
         }
 
         if (!$this->error) {

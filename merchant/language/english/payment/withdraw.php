@@ -33,3 +33,15 @@ $_['heading_title'] = 'Payment Withdraw';
 
 // Text
 $_['text_balance'] = 'Available Balance';
+
+// Entry
+$_['entry_account'] = 'Bank Account';
+$_['entry_amount'] = 'Amount';
+
+// Error
+$_['error_currency'] = 'Please entry valid Currency!';
+$_['error_bank'] = 'Please select valid Bank Account!';
+$_['error_amount'] = 'Minumum Withdraw Amount is %s!';
+
+
+

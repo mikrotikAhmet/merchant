@@ -30,6 +30,7 @@
 
 // Text
 $_['text_last_transfer'] = 'Last transfer';
+$_['text_next_transfer'] = 'Next transfer';
 $_['text_withdraw'] = 'Withdrawal';
 $_['text_balance'] = 'Total Balance';
 

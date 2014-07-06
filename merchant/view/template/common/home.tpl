@@ -37,6 +37,26 @@
     <?php } ?>
 
     <div class="row-fluid">
+        <!-- Information Boxes: Next transfer -->
+        <div class="span3 well infobox">
+            <div class="pull-left text-left">
+                <table>
+                    <tr>
+                        <td>Completed Transfer(s)</td>
+                        <td class="text-right"> : [ <?php echo $this->customer->getTotalSuccessWithdraw()?> ]</td>
+                    </tr>
+                    <tr>
+                        <td>Pending Transfer(s)</td>
+                        <td class="text-right"> : [ <?php echo $this->customer->getTotalPendingWithdraw()?> ]</td>
+                    </tr>
+                    <tr>
+                        <td>Total Transaction(s)</td>
+                        <td class="text-right"> : [ <?php echo $this->customer->getTotalTransaction()?> ]</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- / Information Boxes: Next transfer -->
         <!-- Information Boxes: Last transfer -->
         <div class="span3 well infobox">
             <i class="icon-6x icon-home"></i>
@@ -47,6 +67,18 @@
             </div>
         </div>
         <!-- / Information Boxes: Last transfer -->
+        <!-- Information Boxes: Next transfer -->
+        <div class="span3 well infobox">
+            <i class="icon-6x icon-mail-reply"></i>
+            <div class="pull-right text-right">
+                <?php echo $text_next_transfer?><br>
+                <b class="huge"><?php echo $next_transfer?></b><br>
+                <span class="caps muted">
+                    <?php echo $date?>
+                </span>
+            </div>
+        </div>
+        <!-- / Information Boxes: Next transfer -->
         <!-- Information Boxes: Balance -->
         <div class="span3 well infobox pull-right">
             <i class="icon-6x icon-money"></i>

@@ -52,6 +52,9 @@ class ControllerPaymentWithdraw extends Controller {
         
         $this->data['text_select']= $this->language->get('text_select');
         
+        $this->data['entry_account']= $this->language->get('entry_account');
+        $this->data['entry_amount']= $this->language->get('entry_amount');
+        
         $this->data['text_balance'] = $this->language->get('text_balance');
         $available_balance = $this->customer->getBalance();
         
@@ -63,6 +66,34 @@ class ControllerPaymentWithdraw extends Controller {
         $this->data['home'] = $this->url->link('common/home', 'token='.$this->session->data['token'], 'SSL');
         
         $this->data['action'] = $this->url->link('payment/withdraw', 'token='.$this->session->data['token'], 'SSL');
+        
+        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+            
+            $this->load->model('payment/transaction');
+            
+            $this->model_payment_transaction->addTransactionWithdraw($this->request->post);
+            
+            $this->redirect($this->url->link('common/home', 'token='.$this->session->data['token'], 'SSL'));
+        }
+        
+        if (isset($this->error['bank'])) {
+            $this->data['error_bank'] = $this->error['bank'];
+        } else {
+            $this->data['error_bank'] = '';
+        }
+        
+        if (isset($this->error['amount'])) {
+            $this->data['error_amount'] = $this->error['amount'];
+        } else {
+            $this->data['error_amount'] = '';
+        }
+        
+        if (isset($this->error['currency'])) {
+            $this->data['error_currency'] = $this->error['currency'];
+        } else {
+            $this->data['error_currency'] = '';
+        }
+        
         
         $this->data['token'] = $this->session->data['token'];
         // Load Customer Banks
@@ -110,6 +141,40 @@ class ControllerPaymentWithdraw extends Controller {
             $json[] = $this->currency->format(($balance ? $balance : 0), $this->config->get('config_currency'));
         }
         $this->response->setOutput(json_encode($json));
+    }
+    
+    protected function validateForm() {
+        
+        if (!$this->request->post['bank_id']){
+            $this->error['bank'] = $this->language->get('error_bank');
+        }
+        
+        // Check Bank Account Currency
+        $bank_id = $this->request->post['bank_id'];
+        
+        if ($bank_id){
+        
+        $settlement_currency = $this->customer->getSettlementCurrency($bank_id);
+        
+        } else {
+            $settlement_currency = $this->config->get('config_currency');
+        }
+        
+        $currency = $this->currency->convert(100, $this->config->get('config_currency'), $settlement_currency);
+        
+        if ($this->request->post['amount'] < 100 || ($this->request->post['amount']) == 0) {
+            $this->error['amount'] = sprintf($this->currency->format($currency, $settlement_currency),$this->language->get('error_amount'));
+        }
+        
+        if ($this->request->post['amount'] > 100 && !$this->currency->isCurrency($this->request->post['amount'])){
+            $this->error['currency'] = $this->language->get('error_currency');
+        }
+
+        if (!$this->error) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

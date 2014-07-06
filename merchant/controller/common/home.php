@@ -37,6 +37,7 @@ class ControllerCommonHome extends Controller {
         $this->data['heading_title'] = $this->language->get('heading_title');
         
         $this->data['text_last_transfer'] = $this->language->get('text_last_transfer');
+        $this->data['text_next_transfer'] = $this->language->get('text_next_transfer');
         $this->data['text_withdraw'] = $this->language->get('text_withdraw');
         $this->data['text_balance'] = $this->language->get('text_balance');
         
@@ -48,9 +49,16 @@ class ControllerCommonHome extends Controller {
         $this->data['balance'] = $this->currency->format($this->customer->getBalance(), $this->config->get('config_currency'));
         
         $withdraw_data = $this->customer->getLastWithdraw();
+        $withdraw_next = $this->customer->getNextWithdraw();
         
-        $this->data['last_transfer'] = $this->currency->format((isset($withdraw_data['amount']) ? $withdraw_data['amount'] : 0), $this->config->get('config_currency'));
-
+        $this->data['last_transfer'] = $this->currency->format((isset($withdraw_data['amount']) ? str_replace('-',"",$withdraw_data['amount']) : 0), $this->config->get('config_currency'));
+        $this->data['next_transfer'] = $this->currency->format((isset($withdraw_next['amount']) ? str_replace("-", "", $withdraw_next['amount']) : 0), $this->config->get('config_currency'));
+        
+        if ($withdraw_next){
+            $this->data['date'] = date($this->language->get('date_format_short'), strtotime($withdraw_next['date_added']));
+        } else {
+            $this->data['date'] = null;
+        }
         // Check install directory exists
         if (is_dir(dirname(DIR_APPLICATION) . '/install')) {
             $this->data['error_install'] = $this->language->get('error_install');
