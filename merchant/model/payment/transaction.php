@@ -48,7 +48,7 @@ class ModelPaymentTransaction extends Model {
         $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 
         if ($customer_info) {
-            $this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int) $this->customer->getId() . "', transaction_id = '" . (int) $transaction_id . "', type='".$this->db->escape($type)."',description = '" . $this->db->escape($this->config->get('config_name')) . "', amount = '" . (float) $data['amount'] . "',card_type = '".$this->db->escape($card_data['type'])."', card_number = '".$this->db->escape($card_data['substring'])."', date_added = NOW()");
+            $this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int) $this->customer->getId() . "', transaction_id = '" . (int) $transaction_id . "', type='".$this->db->escape($type)."',description = '" . $this->db->escape($this->config->get('config_name')) . "', amount = '" . (float) $data['amount'] . "',card_type = '".$this->db->escape($card_data['type'])."', card_number = '".$this->db->escape($card_data['substring'])."', date_added = NOW(), status = '1'");
         }
     }
     

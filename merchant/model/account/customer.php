@@ -259,18 +259,18 @@ class ModelAccountCustomer extends Model {
 
             $this->language->load('mail/customer');
 
-            if ($customer_info['store_id']) {
-                $this->load->model('setting/store');
+            if ($customer_info['application_id']) {
+                $this->load->model('setting/application');
 
-                $store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+                $application_info = $this->model_setting_application->getApplication($customer_info['application_id']);
 
-                if ($store_info) {
-                    $store_name = $store_info['name'];
+                if ($application_info) {
+                    $application_name = $application_info['name'];
                 } else {
-                    $store_name = $this->config->get('config_name');
+                    $application_name = $this->config->get('config_name');
                 }
             } else {
-                $store_name = $this->config->get('config_name');
+                $application_name = $this->config->get('config_name');
             }
 
             $message = sprintf($this->language->get('text_transaction_received'), $this->currency->format($amount, $this->config->get('config_currency'))) . "\n\n";
