@@ -5,7 +5,7 @@ class ModelAccountCustomer extends Model {
     public function addBank($data=array()){
         
         if (isset($data)) {
-            $this->db->query("INSERT INTO " . DB_PREFIX . "customer_bank SET customer_id = '" . (int) $this->customer->getId() . "', bank_name = '" . $this->db->escape(strtoupper($data['bank_name'])) . "', settlement_currency = '".$this->db->escape($data['settlement_currency'])."',account_holder = '" . $this->db->escape(strtoupper($data['account_holder_name'])) . "', iban = '" . $this->db->escape($data['iban']) . "', swift = '" . $this->db->escape($data['swift']) . "'");
+            $this->db->query("INSERT INTO " . DB_PREFIX . "customer_bank SET customer_id = '" . (int) $this->customer->getId() . "', bank_name = '" . $this->db->escape(strtoupper($data['bank_name'])) . "', settlement_currency = '".$this->db->escape($data['settlement_currency'])."',account_holder = '" . $this->db->escape(strtoupper($data['account_holder_name'])) . "', iban = '" . $this->db->escape($data['iban']) . "', swift = '" . $this->db->escape($data['swift']) . "', status = '".(int) $this->config->get('config_bankaccount_status_id')."'");
         }
     }
     

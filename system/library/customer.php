@@ -218,13 +218,13 @@ class Customer {
     }
     
     public function getLastWithdraw() {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '1' ORDER BY date_proceed DESC");
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".(int) $this->config->get('config_complete_transfer_status_id')."' ORDER BY date_proceed DESC");
 
         return $query->row;
     }
     
     public function getTotalSuccessWithdraw() {
-        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '1'");
+        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".(int) $this->config->get('config_complete_transfer_status_id')."'");
 
         if($query->row['total']){ 
         return $query->row['total'];
@@ -234,7 +234,7 @@ class Customer {
     }
     
     public function getTotalPendingWithdraw() {
-        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '0'");
+        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".(int) $this->config->get('config_transfer_status_id')."'");
 
         if($query->row['total']){ 
         return $query->row['total'];
@@ -244,7 +244,7 @@ class Customer {
     }
     
     public function getTotalTransaction() {
-        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '1'");
+        $query = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".(int) $this->config->get('config_complete_transaction_status_id')."'");
 
         if($query->row['total']){ 
         return $query->row['total'];
@@ -254,7 +254,7 @@ class Customer {
     }
     
     public function getNextWithdraw() {
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '0' ORDER BY date_added DESC");
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".(int) $this->config->get('config_transfer_status_id')."' ORDER BY date_added DESC");
 
         return $query->row;
     }

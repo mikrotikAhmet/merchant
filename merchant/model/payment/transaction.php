@@ -48,13 +48,14 @@ class ModelPaymentTransaction extends Model {
         $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 
         if ($customer_info) {
-            $this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int) $this->customer->getId() . "', transaction_id = '" . (int) $transaction_id . "', type='".$this->db->escape($type)."',description = '" . $this->db->escape($this->config->get('config_name')) . "', amount = '" . (float) $data['amount'] . "',card_type = '".$this->db->escape($card_data['type'])."', card_number = '".$this->db->escape($card_data['substring'])."', date_added = NOW(), status = '1'");
+            $autocapture = $this->config->get('config_transaction_autocapture');
+            $this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int) $this->customer->getId() . "', transaction_id = '" . (int) $transaction_id . "', type='".$this->db->escape($type)."',description = '" . $this->db->escape($this->config->get('config_name')) . "', amount = '" . (float) $data['amount'] . "',card_type = '".$this->db->escape($card_data['type'])."', card_number = '".$this->db->escape($card_data['substring'])."', date_added = NOW(), status = '".(isset($autocapture) ? (int) $this->config->get('config_complete_transaction_status_id') : $this->config->get('config_transaction_status_id'))."'");
         }
     }
     
     public function addTransactionWithdraw($data){
         
-        $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."'");
+        $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."', status = '".(int) $this->config->get('config_transfer_status_id')."'");
     }
     
     public function getRecentTransactions($limit = 10) {
