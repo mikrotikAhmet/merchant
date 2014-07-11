@@ -210,11 +210,21 @@ class Customer {
     }
 
     public function getBalance() {
-        $query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "'");
+        $query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".$this->config->get('config_complete_transaction_status_id')."'");
         
         $this->db->query("UPDATE ".DB_PREFIX."customer_account SET balance ='".(float) $query->row['total']."' WHERE customer_id = '".(int) $this->customer_id."'");
         
         return $query->row['total'];
+    }
+    
+    public function getAvailabeBalance() {
+        $query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".$this->config->get('config_complete_transaction_status_id')."'");
+        
+        $withdraw = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".$this->config->get('config_transfer_status_id')."'");
+        
+        $available_withdraw_balance = $query->row['total'] - str_replace("-", "", $withdraw->row['total']);
+        
+        return $available_withdraw_balance;
     }
     
     public function getLastWithdraw() {

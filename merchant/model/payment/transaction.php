@@ -55,7 +55,28 @@ class ModelPaymentTransaction extends Model {
     
     public function addTransactionWithdraw($data){
         
-        $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."', status = '".(int) $this->config->get('config_transfer_status_id')."'");
+        $this->load->model('localisation/currency');
+
+        $currency_info = $this->model_localisation_currency->getCurrencyByCode($this->config->get('config_currency'));
+
+        if ($currency_info) {
+                $currency_id = $currency_info['currency_id'];
+                $currency_code = $currency_info['code'];
+                $currency_value = $currency_info['value'];
+        } else {
+                $currency_id = 0;
+                $currency_code = $this->config->get('config_currency');
+                $currency_value = 1.00000;			
+        }
+        
+        $invoice_prefix = $this->config->get('config_invoice_prefix');
+        
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $forwarded_ip = $_SERVER['REMOTE_ADDR'];
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        $accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        
+        $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', firstname = '".$this->db->escape($this->customer->getFirstName())."',lastname = '".$this->db->escape($this->customer->getLastName())."', currency_code = '".$this->db->escape($currency_code)."',currency_value = '".(float) $currency_value."', commission = '".(float) $this->config->get('config_commission')."', ip = '".$this->db->escape($ip)."',forwarded_ip = '".$this->db->escape($forwarded_ip)."',user_agent = '".$this->db->escape($user_agent)."',accept_language = '".$this->db->escape($accept_language)."',date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."', status = '".(int) $this->config->get('config_transfer_status_id')."'");
     }
     
     public function getRecentTransactions($limit = 10) {

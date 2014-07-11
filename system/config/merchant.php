@@ -28,13 +28,13 @@
  * @author ahmet
  */
 // HTTP
-define('HTTP_SERVER', 'http://merchant.semitepayment.com/');
+define('HTTP_SERVER', 'http://lmerchant.semitepayment.com/');
 define('HTTP_API', 'http://api.semitepayment.com/');
 define('HTTP_DOCUMENTATION', 'http://docs.semitepayment.com/');
 define('HTTP_SUPPORT', 'http://form.semitepayment.com/');
 
 // HTTPS
-define('HTTPS_SERVER', 'https://merchant.semitepayment.com/');
+define('HTTPS_SERVER', 'https://lmerchant.semitepayment.com/');
 define('HTTPS_API', 'https://api.semitepayment.com/');
 
 // DIR

@@ -58,7 +58,11 @@ class ControllerPaymentWithdraw extends Controller {
         $this->data['text_balance'] = $this->language->get('text_balance');
         $available_balance = $this->customer->getBalance();
         
+        $this->data['text_balance_withdraw'] = $this->language->get('text_balance_withdraw');
+        $available_withdraw_balance = $this->customer->getAvailabeBalance();
+        
         $this->data['balance'] = $this->currency->format((isset($available_balance) ? $available_balance : 0), $this->config->get('config_currency'));
+        $this->data['withdrawbalance'] = $this->currency->format((isset($available_withdraw_balance) ? $available_withdraw_balance : 0), $this->config->get('config_currency'));
         
         $this->data['button_withdraw'] = $this->language->get('button_withdraw');
         $this->data['button_cancel'] = $this->language->get('button_cancel');
@@ -74,6 +78,12 @@ class ControllerPaymentWithdraw extends Controller {
             $this->model_payment_transaction->addTransactionWithdraw($this->request->post);
             
             $this->redirect($this->url->link('common/home', 'token='.$this->session->data['token'], 'SSL'));
+        }
+        
+        if (isset($this->error['warning'])) {
+            $this->data['error_warning'] = $this->error['warning'];
+        } else {
+            $this->data['error_warning'] = '';
         }
         
         if (isset($this->error['bank'])) {
@@ -92,6 +102,12 @@ class ControllerPaymentWithdraw extends Controller {
             $this->data['error_currency'] = $this->error['currency'];
         } else {
             $this->data['error_currency'] = '';
+        }
+        
+        if (isset($this->error['balance'])) {
+            $this->data['error_balance'] = $this->error['balance'];
+        } else {
+            $this->data['error_balance'] = '';
         }
         
         
@@ -131,14 +147,22 @@ class ControllerPaymentWithdraw extends Controller {
         $data = $this->request->post;
         
         $balance = $this->customer->getBalance();
+        $withdrawbalance = $this->customer->getAvailabeBalance();
         
         if ($data['curr'] != 'undefined'){
         
             $available_balance = $this->currency->convert($balance, $this->config->get('config_currency'), $data['curr']);
+            $available_withdraw_balance = $this->currency->convert($withdrawbalance, $this->config->get('config_currency'), $data['curr']);
 
-            $json[] = $this->currency->format(($available_balance ? $available_balance : 0), $data['curr']);
+            $json[] = array(
+                'balance'=>$this->currency->format(($available_balance ? $available_balance : 0), $data['curr']),
+                'withdraw'=>$this->currency->format(($available_withdraw_balance ? $available_withdraw_balance : 0), $data['curr'])
+            );
         } else {
-            $json[] = $this->currency->format(($balance ? $balance : 0), $this->config->get('config_currency'));
+            $json[] = array(
+                'balance'=>$this->currency->format(($balance ? $balance : 0), $this->config->get('config_currency')),
+                'withdraw'=>$this->currency->format(($available_withdraw_balance ? $available_withdraw_balance : 0), $this->config->get('config_currency'))
+            );
         }
         $this->response->setOutput(json_encode($json));
     }
@@ -169,6 +193,13 @@ class ControllerPaymentWithdraw extends Controller {
         if ($this->request->post['amount'] > 100 && !$this->currency->isCurrency($this->request->post['amount'])){
             $this->error['currency'] = $this->language->get('error_currency');
         }
+        
+        $available_withdraw = $this->customer->getAvailabeBalance();
+        
+         if ($this->request->post['amount'] > $available_withdraw){
+            $this->error['warning'] = $this->language->get('error_balance');
+        }
+        
 
         if (!$this->error) {
             return true;

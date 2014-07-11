@@ -33,6 +33,7 @@ $_['heading_title'] = 'Payment Withdraw';
 
 // Text
 $_['text_balance'] = 'Available Balance';
+$_['text_balance_withdraw'] = 'Available Withdraw Balance';
 
 // Entry
 $_['entry_account'] = 'Bank Account';
@@ -42,6 +43,7 @@ $_['entry_amount'] = 'Amount';
 $_['error_currency'] = 'Please entry valid Currency!';
 $_['error_bank'] = 'Please select valid Bank Account!';
 $_['error_amount'] = 'Minumum Withdraw Amount is %s!';
+$_['error_balance'] = 'Insufficient Amount';
 
 
 

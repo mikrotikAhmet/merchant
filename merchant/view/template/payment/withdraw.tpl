@@ -28,10 +28,20 @@
     <div class="span3 well infobox pull-right">
             <i class="icon-6x icon-money"></i>
             <div class="pull-right text-right">
-                <?php echo $text_balance?><br>
-                <b class="huge"><?php echo $balance?></b><br>
+                <?php echo $text_balance_withdraw?><br>
+                <b class="huge" id="available"><?php echo $withdrawbalance?></b><br>
+                    <?php if ($error_warning) { ?>
+                <span class="error" style="background: #83161b;color: #fff;padding: 3px;"><?php echo $error_warning; ?></span>
+                <?php } ?>
             </div>
         </div>
+    <div class="span3 well infobox pull-right">
+            <i class="icon-6x icon-money"></i>
+            <div class="pull-right text-right">
+                <?php echo $text_balance?><br>
+                <b class="huge" id="balance"><?php echo $balance?></b><br>
+            </div>
+    </div>
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal pull-left" role="form" id="form">
         <div class="control-group">
             <label for="bank_select" class="col-sm-3 control-label"> <?php echo $entry_account?></label>
@@ -79,8 +89,8 @@
             type : 'POST',
             dataType: 'json',
             success: function(json) {
-                
-                $('.huge').html(json);
+                $('#balance').html(json[0].balance);
+                $('#available').html(json[0].withdraw);
             }
         });
         
