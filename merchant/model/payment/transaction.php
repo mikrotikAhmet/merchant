@@ -77,6 +77,10 @@ class ModelPaymentTransaction extends Model {
         $accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         
         $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', firstname = '".$this->db->escape($this->customer->getFirstName())."',lastname = '".$this->db->escape($this->customer->getLastName())."', currency_code = '".$this->db->escape($currency_code)."',currency_value = '".(float) $currency_value."', commission = '".(float) $this->config->get('config_commission')."', ip = '".$this->db->escape($ip)."',forwarded_ip = '".$this->db->escape($forwarded_ip)."',user_agent = '".$this->db->escape($user_agent)."',accept_language = '".$this->db->escape($accept_language)."',date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."', status = '".(int) $this->config->get('config_transfer_status_id')."'");
+        
+        $withdraw_id = $this->db->getLastId();
+        
+        $this->db->query("INSERT INTO " . DB_PREFIX . "withdraw_history SET withdraw_id = '" . (int)$withdraw_id . "', withdraw_status_id = '" . (int)$this->config->get('config_transfer_status_id') . "', notify = '0', comment = '', date_added = NOW()");
     }
     
     public function getRecentTransactions($limit = 10) {
