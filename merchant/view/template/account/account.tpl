@@ -270,7 +270,7 @@
                             <label class="control-label" for="inputPassword"><?php echo $entry_email_me?></label>
                             <div class="controls">
                                 <label class="checkbox">
-                                    <input type="checkbox" name="mail_me" value="1" <?php echo ($statement['mail_me'] ? 'checked' : null)?>>
+                                    <input type="checkbox" name="mail_me" value="1" <?php echo (isset($statement['mail_me']) && $statement['mail_me'] ? 'checked' : null)?>>
                                     <?php echo $text_success_payment?>				
                                 </label>
                             </div>
@@ -281,7 +281,7 @@
                             <label class="control-label" for="inputPassword"><?php echo $entry_email_customer?></label>
                             <div class="controls">
                                 <label class="checkbox">
-                                    <input type="checkbox" name="mail_customer" value="1" <?php echo ($statement['mail_customer'] ? 'checked' : null)?>>
+                                    <input type="checkbox" name="mail_customer" value="1" <?php echo (isset($statement['mail_customer']) && $statement['mail_customer'] ? 'checked' : null)?>>
                                     <?php echo $text_success_payment?>				
                                 </label>
                             </div>
@@ -291,7 +291,7 @@
                         <div class="control-group">
                             <label class="control-label" for="inputPassword"><?php echo $entry_business_name?></label>
                             <div class="controls">
-                                <input type="text" id="business_name" name="business_name" placeholder="" value="<?php echo $statement['business_name']?>">
+                                <input type="text" id="business_name" name="business_name" placeholder="" value="<?php echo (isset($statement['business_name']) ? $statement['business_name'] : null)?>">
                             </div>
                         </div>
                         <!-- / Create Account: Business Name -->
@@ -299,7 +299,7 @@
                         <div class="control-group">
                             <label class="control-label" for="inputPassword"><?php echo $entry_business_url?></label>
                             <div class="controls">
-                                <input type="text" id="business_url" name="business_url" placeholder="" value="<?php echo $statement['business_url']?>">
+                                <input type="text" id="business_url" name="business_url" placeholder="" value="<?php echo (isset($statement['business_url']) ? $statement['business_url'] : null)?>">
                             </div>
                         </div>
                         <!-- / Create Account: Business URL -->
@@ -307,7 +307,7 @@
                         <div class="control-group">
                             <label class="control-label" for="inputPassword"><?php echo $entry_business_mail?></label>
                             <div class="controls">
-                                <input type="text" id="business_email" name="business_email" placeholder="" value="<?php echo $statement['business_email']?>">
+                                <input type="text" id="business_email" name="business_email" placeholder="" value="<?php echo (isset($statement['business_email']) ? $statement['business_email'] : null)?>">
                             </div>
                         </div>
                         <!-- Create Account: Form Actions -->
