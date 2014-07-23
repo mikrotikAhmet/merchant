@@ -54,6 +54,7 @@ class ControllerPaymentWithdraw extends Controller {
         
         $this->data['entry_account']= $this->language->get('entry_account');
         $this->data['entry_amount']= $this->language->get('entry_amount');
+        $this->data['entry_comment']= $this->language->get('entry_comment');
         
         $this->data['text_balance'] = $this->language->get('text_balance');
         $available_balance = $this->customer->getBalance();

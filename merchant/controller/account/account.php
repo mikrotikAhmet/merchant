@@ -162,7 +162,20 @@ class ControllerAccountAccount extends Controller {
         
         $banks = $this->model_account_customer->getCustomerBanks($this->customer->getId());
         
+        $this->load->model('localisation/transaction_status');
+        
         foreach ($banks as $bank){
+            
+            $transaction_status = $this->model_localisation_transaction_status->getTransactionStatus($bank['status']);
+            
+            if ($bank['status'] == $this->config->get('config_complete_bankaccount_status_id')){
+            
+                    $verification = '<span class="icon-check">' .$transaction_status['name'].'</span>';
+                
+                } else {
+                    $verification = $transaction_status['name'] ;
+                }
+            
             $this->data['banks'][] = array(
                 'customer_bank_id'=>$bank['customer_bank_id'],
                 'bank_name'=>$bank['bank_name'],
@@ -170,8 +183,8 @@ class ControllerAccountAccount extends Controller {
                 'account_holder'=>$bank['account_holder'],
                 'iban'=>$bank['iban'],
                 'swift'=>$bank['swift'],
-                'status'=>$bank['verified'],
-                'verified'=>($bank['verified'] ? '<span class="btn btn-success">'.$this->language->get('text_verified').'</span>' : '<span class="btn btn-danger">'.$this->language->get('text_pending').'</span>')
+                'status'=>$bank['status'],
+                'verified'=>$verification
             );
         }
         

@@ -38,6 +38,7 @@ $_['text_balance_withdraw'] = 'Available Withdraw Balance';
 // Entry
 $_['entry_account'] = 'Bank Account';
 $_['entry_amount'] = 'Amount';
+$_['entry_comment'] = 'Comment';
 
 // Error
 $_['error_currency'] = 'Please entry valid Currency!';

@@ -49,6 +49,11 @@
                 <select name="bank_id">
                     <option value=""><?php echo $text_select?></option>
                     <?php foreach ($banks as $bank) { ?>
+                    <?php 
+                        if ($bank['status'] != $this->config->get('config_complete_bankaccount_status_id')){
+                            continue;
+                        }
+                    ?>
                     <option value="<?php echo $bank['customer_bank_id']?>"><?php echo $bank['bank_name']?> - <?php echo $bank['settlement_currency']?></option>
                     <?php } ?>
                 </select>
@@ -67,6 +72,12 @@
                 <?php if ($error_currency) { ?>
                 <span class="error"><?php echo $error_currency; ?></span>
                 <?php } ?>
+            </div>
+        </div> 
+        <div class="control-group">
+            <label for="bank_select" class="col-sm-3 control-label"> <?php echo $entry_comment?></label>
+            <div class="controls">
+                <textarea name="comment" rows="7"></textarea>
             </div>
         </div> 
         
