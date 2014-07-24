@@ -42,7 +42,8 @@ class ModelPaymentTransaction extends Model {
         $this->load->model('account/customer');
         $this->load->helper('creditcard');
 
-        $transaction_id = generateVirtualCard(5, '');
+                $digits = 7;
+                $transaction_id = rand(pow(10, $digits-1), pow(10, $digits)-1);
         
 
         $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
@@ -76,7 +77,12 @@ class ModelPaymentTransaction extends Model {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         
+        
         $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', invoice_prefix = '".$this->db->escape($invoice_prefix)."' ,firstname = '".$this->db->escape($this->customer->getFirstName())."',lastname = '".$this->db->escape($this->customer->getLastName())."', currency_code = '".$this->db->escape($currency_code)."',currency_value = '".(float) $currency_value."', commission = '".(float) $this->config->get('config_commission')."', ip = '".$this->db->escape($ip)."',forwarded_ip = '".$this->db->escape($forwarded_ip)."',user_agent = '".$this->db->escape($user_agent)."',accept_language = '".$this->db->escape($accept_language)."',date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."', comment = '".$this->db->escape($data['comment'])."',status = '".(int) $this->config->get('config_transfer_status_id')."'");
+        
+        $transaction_id = $this->db->getLastId();
+        
+        $this->db->query("INSERT INTO ".DB_PREFIX."customer_transaction SET transaction_id = '".(int) $transaction_id."', `type`= 'Withdraw', customer_id = '".(int) $this->customer->getId()."', description = 'Wire Transfer', amount = '-".(float) $data['amount']."', date_added = NOW(), status = '".(int)$this->config->get('config_transfer_status_id')."' ");
         
         $withdraw_id = $this->db->getLastId();
         

@@ -46,6 +46,7 @@ class ControllerPaymentWithdraw extends Controller {
     
     public function index(){
         
+        
         $this->language->load('payment/withdraw');
         
         $this->document->setTitle($this->language->get('heading_title'));
