@@ -35,6 +35,7 @@
             <label for="card_holder_name" class="col-sm-3 control-label"><?php echo $entry_name?></label>
             <div class="col-sm-4">
                 <input type="text" name="cardholder" value="<?php echo $cardholder; ?>" class="form-control">
+                <br/>
                 <?php if ($error_cardholder) { ?>
                 <span class="error"><?php echo $error_cardholder; ?></span>
                 <?php } ?>
@@ -44,6 +45,7 @@
             <label for="card_number" class="col-sm-3 control-label"><?php echo $entry_card_number?></label>
             <div class="col-sm-3">
                 <input type="text" name="cardnum" value="<?php echo $cardnum; ?>" class="form-control">
+                <br/>
                 <?php if ($error_cardnum) { ?>
                 <span class="error"><?php echo $error_cardnum; ?></span>
                 <?php } ?>
@@ -52,6 +54,7 @@
         <div class="form-group">
             <label for="card_expire" class="col-sm-3 control-label"><?php echo $entry_expire_date?></label>
                 <input type="text" name="expire_date" value="<?php echo $expiredate; ?>" class="form-control">
+                <br/>
                 <?php if ($error_expire) { ?>
                 <span class="error"><?php echo $error_expire; ?></span>
                 <?php } ?>
@@ -60,6 +63,7 @@
             <label for="card_cvv" class="col-sm-3 control-label"><?php echo $entry_cvv?></label>
             <div class="col-sm-1">
                 <input type="text" name="cvv" value="<?php echo $cvv; ?>" class="form-control">
+                <br/>
                 <?php if ($error_cvv) { ?>
                 <span class="error"><?php echo $error_cvv; ?></span>
                 <?php } ?>
@@ -69,6 +73,7 @@
             <label for="amount" class="col-sm-3 control-label"><?php echo $entry_amount?></label>
             <div class="col-sm-3">
                 <input type="text" name="amount" value="<?php echo $amount; ?>" class="form-control">
+                <br/>
                 <?php if ($error_amount) { ?>
                 <span class="error"><?php echo $error_amount; ?></span>
                 <?php } ?>
