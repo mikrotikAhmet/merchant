@@ -7,4 +7,5 @@ and open the template in the editor.
     Created on : Jul 4, 2014, 9:49:14 AM
     Author     : ahmet
 */
-
+.error{color: tomato}
+.dataTables_filter{display: none}

@@ -202,6 +202,10 @@ class ControllerPaymentWithdraw extends Controller {
             $this->error['warning'] = $this->language->get('error_balance');
         }
         
+        if (!$this->customer->isApproved()){
+            $this->error['warning'] = sprintf($this->language->get('error_approved'), $this->config->get('config_name'),$this->config->get('config_name'),'#');
+        }
+        
 
         if (!$this->error) {
             return true;

@@ -142,6 +142,27 @@ class ControllerCommonHome extends Controller {
         $this->data['deposit'] = $this->url->link('payment/deposit','token='.$this->session->data['token'],'SSL');
         $this->data['withdraw'] = $this->url->link('payment/withdraw','token='.$this->session->data['token'],'SSL');
         
+        // Transactions
+        
+        $this->data['transactions'] = array();
+        
+        $this->load->model('account/customer');
+        
+        $transactions = $this->model_account_customer->getTransactions();
+        
+        foreach ($transactions as $transaction){
+            
+            $action = array();
+            
+            $this->data['transactions'][] = array(
+                'transaction_id'=>$transaction['transaction_id'],
+                'type'=>$transaction['type'],
+                'description'=>$transaction['description'],
+                'status'=>$transaction['status'],
+                'action'=>$action
+            );
+        }
+        
         $this->template = 'common/home.tpl';
         $this->children = array(
             'common/header',

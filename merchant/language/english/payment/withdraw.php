@@ -45,6 +45,4 @@ $_['error_currency'] = 'Please entry valid Currency!';
 $_['error_bank'] = 'Please select valid Bank Account!';
 $_['error_amount'] = 'Minumum Withdraw Amount is %s!';
 $_['error_balance'] = 'Insufficient Amount';
-
-
-
+$_['error_approved'] = '<i class="icon-remove-sign"></i> Your <b>%s</b> has not been approved yet.<br/>In order to start using your %s please <a href="%s">Activate Your Account</a>';

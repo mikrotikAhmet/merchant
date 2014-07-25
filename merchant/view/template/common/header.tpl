@@ -24,6 +24,7 @@
         <link href="merchant/view/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="merchant/view/assets/css/theme/avocado.css" rel="stylesheet" type="text/css" id="theme-style">
         <link href="merchant/view/assets/css/prism.css" rel="stylesheet/less" type="text/css">
+        <link href="merchant/view/assets/css/theme/style.css" rel="stylesheet" type="text/css">
         <link href='merchant/view/assets/font/css43ad.css?family=Open+Sans:300italic,400italic,600italic,400,600,300' rel='stylesheet' type='text/css'> 
         <style type="text/css">
             body { padding-top: 102px; }
@@ -92,7 +93,7 @@
                             <!-- User Navigation: User Dropdown -->
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo $account?>"><i class="icon-user"></i> <?php echo $text_account?></a></li>
-                                <!--li><a href="<?php echo $setting?>"><i class="icon-cog"></i> <?php echo $text_setting?></a></li-->
+                                <li><a href="<?php echo $activate?>"><i class="icon-check"></i> <?php echo $text_activate?></a></li>
                                 <li class="divider"></li>
                                 <li><a href="<?php echo $logout?>"><i class="icon-off"></i> <?php echo $logged?></a></li>
                             </ul>

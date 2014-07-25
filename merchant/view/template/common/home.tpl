@@ -94,6 +94,49 @@
         <!-- / Information Boxes: Balance -->
     </div>
 
+    <!-- Live Stats -->
+    <div class="row-fluid">
+        <!-- Pie: Box -->
+        <div class="span12">
+            <!-- Pie: Top Bar -->
+            <div class="top-bar">
+                <h3><i class="icon-eye-open"></i> Transaction History</h3>
+            </div>
+            <!-- / Pie: Top Bar -->
+            <!-- Pie: Content -->
+            <div class="well no-padding">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th class="center">Status</th>
+                            <th class="center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($transactions as $transaction) { ?>
+                        <tr class="odd gradeX">
+                            <td><?php echo $transaction['transaction_id']?></td>
+                            <td><?php echo $transaction['type']?></td>
+                            <td><?php echo $transaction['description']?></td>
+                            <td class="center"> <?php echo $transaction['status']?></td>
+                            <td class="center"><a>View</a></td>
+                        </tr>
+                        <?php } ?>
+                        
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- / Pie: Content -->
+
+        </div>
+        <!-- / Pie -->
+
+    </div>
+    <!-- / Live Stats -->
 </div>
 <!-- / Content Container -->
 <?php echo $footer?>

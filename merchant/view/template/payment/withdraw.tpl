@@ -25,14 +25,19 @@
 </div>
 
 <div class="container">
-    <div class="span3 well infobox pull-right">
-            <i class="icon-6x icon-money"></i>
+    <div class="span12" style="margin-bottom: 7px">
+        <?php if ($error_warning) { ?>
+        <div class="alert alert-light">
+        <a class="close" data-dismiss="alert">×</a>
+        <?php echo $error_warning?>
+        </div>
+        <?php } ?>
+    </div>
+    <div class="span3 well infobox pull-left">
+            <i class="icon-6x icon-renren"></i>
             <div class="pull-right text-right">
                 <?php echo $text_balance_withdraw?><br>
                 <b class="huge" id="available"><?php echo $withdrawbalance?></b><br>
-                    <?php if ($error_warning) { ?>
-                <span class="error" style="background: #83161b;color: #fff;padding: 3px;"><?php echo $error_warning; ?></span>
-                <?php } ?>
             </div>
         </div>
     <div class="span3 well infobox pull-right">
@@ -42,7 +47,9 @@
                 <b class="huge" id="balance"><?php echo $balance?></b><br>
             </div>
     </div>
-    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal pull-left" role="form" id="form">
+    <div class="clearfix"></div>
+    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal" role="form" id="form">
+        
         <div class="control-group">
             <label for="bank_select" class="col-sm-3 control-label"> <?php echo $entry_account?></label>
             <div class="controls">
@@ -57,6 +64,7 @@
                     <option value="<?php echo $bank['customer_bank_id']?>"><?php echo $bank['bank_name']?> - <?php echo $bank['settlement_currency']?></option>
                     <?php } ?>
                 </select>
+                <br/>
                 <?php if ($error_bank) { ?>
                 <span class="error"><?php echo $error_bank; ?></span>
                 <?php } ?>
@@ -66,6 +74,7 @@
             <label for="bank_select" class="col-sm-3 control-label"> <?php echo $entry_amount?></label>
             <div class="controls">
                 <input type="text" id="inputUsername" name="amount" placeholder="" value="0">
+                <br/>
                 <?php if ($error_amount) { ?>
                 <span class="error"><?php echo $error_amount; ?></span>
                 <?php } ?>
@@ -77,7 +86,7 @@
         <div class="control-group">
             <label for="bank_select" class="col-sm-3 control-label"> <?php echo $entry_comment?></label>
             <div class="controls">
-                <textarea name="comment" rows="7"></textarea>
+                <textarea name="comment" rows="7" class="span9"></textarea>
             </div>
         </div> 
         

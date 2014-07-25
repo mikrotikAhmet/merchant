@@ -31,7 +31,7 @@
 // Text
 $_['text_dashboard']                   = 'Dashboard';
 $_['text_account']                   = 'Account Settings';
-$_['text_setting']                   = 'Settings';
+$_['text_activate']                   = 'Activate Account';
 $_['text_logged'] = 'Logout';
 $_['logged_as'] = '%s';
 
