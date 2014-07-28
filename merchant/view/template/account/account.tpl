@@ -37,6 +37,7 @@
                     <li class=""><a href="#tab-api"><i class="icon-key"></i> API Keys</a></li>
                     <li class=""><a href="#tab-transfer"><i class="icon-exchange"></i> Transfers</a></li>
                     <li class=""><a href="#tab-email"><i class="icon-globe"></i> EMails</a></li>
+                    <li class=""><a href="#tab-docs"><i class="icon-file"></i> Documents</a></li>
                 </ul>
             </div>
             <!-- / Account Settings: Top Bar -->
@@ -320,6 +321,25 @@
                     </form>
                 </div>
                 <!-- /Customer General Email -->
+                
+                <!-- Customer Documents -->
+                <div class="tab-pane" id="tab-docs">
+                    <form class="form-horizontal" id="docs">
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword"><?php echo $entry_business_mail?></label>
+                            <div class="controls">
+                                <input type="file" id="business_email" name="doc[]" placeholder="" value="">
+                            </div>
+                        </div>
+                        <!-- Create Account: Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" onclick="alert()" class="btn btn-primary">Upload</button>
+                            <button type="button" class="btn" onclick="window.location = '<?php echo $home?>'"><?php echo $button_cancel?></button>
+                        </div>
+                        <!-- / Create Account: Form Actions -->
+                    </form>
+                </div>
+                <!-- /Customer Documents -->
             </div>
             <!-- / Account: Settings -->
 
