@@ -32,7 +32,7 @@
         <link href="merchant/view/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
         <!-- JavaScript/jQuery, Pre-DOM -->
-        <script src="merchant/view/assets/js/jquery/1.9.1/jquery.min.js"></script> 
+        <script src="merchant/view/assets/js/jquery/1.7.1/jquery-1.7.1.min.js"></script> 
         <script src="merchant/view/assets/js/charts/excanvas.min.js"></script>
         <script src="merchant/view/assets/js/charts/jquery.flot.js"></script>
         <script src="merchant/view/assets/js/jquery.jpanelmenu.min.js"></script>

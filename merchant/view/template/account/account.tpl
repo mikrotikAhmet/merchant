@@ -326,14 +326,16 @@
                 <div class="tab-pane" id="tab-docs">
                     <form class="form-horizontal" id="docs">
                         <div class="control-group">
-                            <label class="control-label" for="inputPassword"><?php echo $entry_business_mail?></label>
+                            <label class="control-label" for="inputPassword">Valid ID or Passport :</label>
                             <div class="controls">
-                                <input type="file" id="business_email" name="doc[]" placeholder="" value="">
+                                <input type="text" id="" name="idpass" placeholder="" value="">
+                                <input type="hidden" id="" name="mask" placeholder="" value="">
+                                <button type="button" id="button-upload" class="btn btn-primary">Upload</button>
                             </div>
                         </div>
                         <!-- Create Account: Form Actions -->
                         <div class="form-actions">
-                            <button type="button" onclick="alert()" class="btn btn-primary">Upload</button>
+                            <button type="button" onclick="alert()" class="btn btn-primary">Save</button>
                             <button type="button" class="btn" onclick="window.location = '<?php echo $home?>'"><?php echo $button_cancel?></button>
                         </div>
                         <!-- / Create Account: Form Actions -->
@@ -581,5 +583,34 @@ function removeBank(bank_id){
         });
         
     }
+//--></script> 
+<script type="text/javascript" src="merchant/view/assets/js/jquery/ajaxupload.js"></script> 
+<script type="text/javascript"><!--
+new AjaxUpload('#button-upload', {
+	action: 'index.php?route=account/account/upload&token=<?php echo $token; ?>',
+	name: 'file',
+	autoSubmit: true,
+	responseType: 'json',
+	onSubmit: function(file, extension) {
+		$('#button-upload').after('<img src="merchant/view/assets/img/loader.gif" class="loading" style="padding-left: 5px;" />');
+		$('#button-upload').attr('disabled', true);
+	},
+	onComplete: function(file, json) {
+		$('#button-upload').attr('disabled', false);
+		
+		if (json['success']) {
+			alert(json['success']);
+			
+			$('input[name=\'idpass\']').attr('value', json['filename']);
+			$('input[name=\'mask\']').attr('value', json['mask']);
+		}
+		
+		if (json['error']) {
+			alert(json['error']);
+		}
+		
+		$('.loading').remove();	
+	}
+});
 //--></script> 
 <?php echo $footer?>

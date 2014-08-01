@@ -45,7 +45,7 @@ define('DIR_DATABASE', '/var/www/html/merchant_semitepayment.com/system/database
 define('DIR_TEMPLATE', '/var/www/html/merchant_semitepayment.com/merchant/view/template/');
 define('DIR_LANGUAGE', '/var/www/html/merchant_semitepayment.com/merchant/language/');
 define('DIR_CONFIG', '/var/www/html/merchant_semitepayment.com/system/library/config/');
-define('DIR_DOWNLOAD', '/var/www/html/merchant_semitepayment.com/download/');
+define('DIR_DOWNLOAD', '/var/www/html/semitepayment.com/download/');
 define('DIR_LOGS', '/var/www/html/merchant_semitepayment.com/system/logs/');
 define('DIR_CACHE', '/var/www/html/merchant_semitepayment.com/system/cache/');
 
