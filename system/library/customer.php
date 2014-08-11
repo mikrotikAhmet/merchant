@@ -218,7 +218,7 @@ class Customer {
     }
     
     public function getAvailabeBalance() {
-        $query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".$this->config->get('config_complete_transaction_status_id')."'");
+        $query = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".$this->config->get('config_complete_transaction_status_id')."' AND `type` = 'Sale' OR `type` = 'Deposit'");
         
         $withdraw = $this->db->query("SELECT SUM(amount) AS total FROM " . DB_PREFIX . "withdraw WHERE customer_id = '" . (int) $this->customer_id . "' AND status = '".$this->config->get('config_transfer_status_id')."'");
         
