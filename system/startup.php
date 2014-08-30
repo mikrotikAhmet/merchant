@@ -111,7 +111,8 @@ $auto_loader = new Autoloader();
 $classes['helper'] = array(
     'json',
     'utf8',
-    'debug');
+    'debug',
+    'utf8_hex');
 $classes['engine'] = array(
     'registry',
     'action',

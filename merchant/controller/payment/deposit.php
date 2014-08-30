@@ -46,12 +46,11 @@ class ControllerPaymentDeposit extends Controller{
 
 
     public function index(){
-        
         $this->language->load('payment/deposit');
         
         $this->document->setTitle($this->language->get('heading_title'));
         
-        $this->data['text_information'] = $this->language->get('text_information');
+        $this->data['text_information'] = sprintf($this->language->get('text_information'), $this->config->get('config_name'));
         
         $this->data['entry_name'] = $this->language->get('entry_name');
         $this->data['entry_card_number'] = $this->language->get('entry_card_number');
@@ -74,6 +73,9 @@ class ControllerPaymentDeposit extends Controller{
         $this->data['action'] = $this->url->link('payment/deposit', 'token='.$this->session->data['token'], 'SSL');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+           
+        
+                
             
             $this->load->model('payment/transaction');
 
@@ -83,7 +85,7 @@ class ControllerPaymentDeposit extends Controller{
 
             if ($card_info['status'] == 'valid') {
                 
-                $this->model_payment_transaction->addTransaction('Deposit',$this->creditcard->GetCardInfo(),'',$this->request->post);
+                $this->model_payment_transaction->addTransaction('Deposit'.($this->customer->isApproved() ? null : ' Test Mode'),$this->creditcard->GetCardInfo(),'',$this->request->post);
 
                 $this->redirect($this->url->link('common/home', 'token='.$this->session->data['token'], 'SSL'));
             }

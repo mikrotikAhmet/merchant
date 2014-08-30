@@ -134,7 +134,7 @@ class ControllerCommonHome extends Controller {
         }
         
         if (!$this->customer->isApproved()){
-            $this->data['error_approved'] = $this->language->get('error_approved');
+            $this->data['error_approved'] = sprintf($this->language->get('error_approved'),$this->url->link('account/activate', 'token='.$this->session->data['token'],'SSL'));
         } else {
             $this->data['error_approved'] = '';
         }

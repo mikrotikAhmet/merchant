@@ -61,9 +61,13 @@ class ControllerPaymentWithdraw extends Controller {
         $available_balance = $this->customer->getBalance();
         
         $this->data['text_balance_withdraw'] = $this->language->get('text_balance_withdraw');
-        $available_withdraw_balance = $this->customer->getAvailabeBalance();
+        $available_withdraw_balance = $this->customer->getAvailabeBalance() - ($this->customer->getAvailabeBalance() * ($this->config->get('config_commission') / 100));
         
         $this->data['balance'] = $this->currency->format((isset($available_balance) ? $available_balance : 0), $this->config->get('config_currency'));
+        
+        if ($available_withdraw_balance < 0){
+            $available_withdraw_balance = str_replace('-', '', $available_withdraw_balance);
+        }
         $this->data['withdrawbalance'] = $this->currency->format((isset($available_withdraw_balance) ? $available_withdraw_balance : 0), $this->config->get('config_currency'));
         
         $this->data['button_withdraw'] = $this->language->get('button_withdraw');
@@ -149,7 +153,7 @@ class ControllerPaymentWithdraw extends Controller {
         $data = $this->request->post;
         
         $balance = $this->customer->getBalance();
-        $withdrawbalance = $this->customer->getAvailabeBalance();
+        $withdrawbalance = $this->customer->getAvailabeBalance() - ($this->customer->getAvailabeBalance() * ($this->config->get('config_commission') / 100));
         
         if ($data['curr'] != 'undefined'){
         
@@ -198,12 +202,14 @@ class ControllerPaymentWithdraw extends Controller {
         
         $available_withdraw = $this->customer->getAvailabeBalance();
         
-         if ($this->request->post['amount'] > $available_withdraw){
+        $requested_amount = $this->request->post['amount'] + ($this->request->post['amount'] * $this->config->get('config_commission') / 100);
+        
+         if ($requested_amount > $available_withdraw){
             $this->error['warning'] = $this->language->get('error_balance');
         }
         
         if (!$this->customer->isApproved()){
-            $this->error['warning'] = sprintf($this->language->get('error_approved'), $this->config->get('config_name'),$this->config->get('config_name'),'#');
+            $this->error['warning'] = sprintf($this->language->get('error_approved'), $this->config->get('config_name'),$this->config->get('config_name'),$this->url->link('account/activate', 'token='.$this->session->data['token'],'SSL'));
         }
         
 

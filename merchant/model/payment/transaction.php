@@ -44,6 +44,7 @@ class ModelPaymentTransaction extends Model {
 
                 $digits = 7;
                 $transaction_id = rand(pow(10, $digits-1), pow(10, $digits)-1);
+                $transaction_id_comission = rand(pow(10, $digits-1), pow(10, $digits)-1);
         
 
         $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
@@ -51,6 +52,7 @@ class ModelPaymentTransaction extends Model {
         if ($customer_info) {
             $autocapture = $this->config->get('config_transaction_autocapture');
             $this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int) $this->customer->getId() . "', transaction_id = '" . (int) $transaction_id . "', type='".$this->db->escape($type)."',description = '" . $this->db->escape($this->config->get('config_name')) . "', amount = '" . (float) $data['amount'] . "',card_type = '".$this->db->escape($card_data['type'])."', card_number = '".$this->db->escape($card_data['substring'])."', date_added = NOW(), status = '".(isset($autocapture) ? (int) $this->config->get('config_complete_transaction_status_id') : $this->config->get('config_transaction_status_id'))."'");
+            
         }
     }
     
@@ -77,12 +79,20 @@ class ModelPaymentTransaction extends Model {
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
         $accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
         
+        $digits = 7;
+                $transaction_id_comission = rand(pow(10, $digits-1), pow(10, $digits)-1);
+        
+        
         
         $this->db->query("INSERT INTO ".DB_PREFIX."withdraw SET customer_id = '".(int) $this->customer->getId()."', invoice_prefix = '".$this->db->escape($invoice_prefix)."' ,firstname = '".$this->db->escape($this->customer->getFirstName())."',lastname = '".$this->db->escape($this->customer->getLastName())."', currency_code = '".$this->db->escape($currency_code)."',currency_value = '".(float) $currency_value."', commission = '".(float) $this->config->get('config_commission')."', ip = '".$this->db->escape($ip)."',forwarded_ip = '".$this->db->escape($forwarded_ip)."',user_agent = '".$this->db->escape($user_agent)."',accept_language = '".$this->db->escape($accept_language)."',date_added = NOW(), amount = '-".(float) $data['amount']."', to_account = '".(int) $data['bank_id']."', comment = '".$this->db->escape($data['comment'])."',status = '".(int) $this->config->get('config_transfer_status_id')."'");
         
         $transaction_id = $this->db->getLastId();
         
+        $commision = $data['amount'] * ($this->config->get('config_commission') / 100);
+        
         $this->db->query("INSERT INTO ".DB_PREFIX."customer_transaction SET transaction_id = '".(int) $transaction_id."', `type`= 'Withdraw', customer_id = '".(int) $this->customer->getId()."', description = 'Wire Transfer', amount = '-".(float) $data['amount']."', date_added = NOW(), status = '".(int)$this->config->get('config_transfer_status_id')."' ");
+        
+        $this->db->query("INSERT INTO " . DB_PREFIX . "customer_transaction SET customer_id = '" . (int) $this->customer->getId() . "', transaction_id = '" . (int) $transaction_id_comission . "', type='Commision',description = 'REF : ".(int) $transaction_id." - Commision To " . $this->db->escape($this->config->get('config_name')) . "', amount = '-" . (float) $commision . "', date_added = NOW(), status = '".(int)$this->config->get('config_transfer_status_id')."' ");
         
         $withdraw_id = $this->db->getLastId();
         

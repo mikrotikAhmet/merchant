@@ -36,4 +36,4 @@ $_['text_balance'] = 'Total Balance';
 
 
 // Error
-$_['error_approved'] = '<b>Action Required </b>: Your Merchant account still not approved by our system. <br/>Before <b><a href="">activating your account</a></b>, you can only interact with Semite Payment in test mode. With the exception of the ability to make a real charge to a credit card, all of Semite Payment\'s features are available in test mode.';
+$_['error_approved'] = '<b>Action Required </b>: Your Merchant account still not approved by our system. <br/>Before <b><a href="%s">activating your account</a></b>, you can only interact with Semite Payment in test mode. With the exception of the ability to make a real charge to a credit card, all of Semite Payment\'s features are available in test mode.';

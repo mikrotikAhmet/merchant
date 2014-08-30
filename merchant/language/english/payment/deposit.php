@@ -31,11 +31,11 @@ $_['heading_title'] = 'Payment Deposit';
 
 // Text
 $_['text_information'] = '<p>
-                This part will work with <b>PCI DSS Level - 1 3D Secure.</b><br/>
-                Hosting of this Application should be <b>PCI Complience</b> Supported.
+                %s uses <b>PCI DSS Level - 1 3D Secure Transaction System.</b><br/>
+                with <b>PCI Complience</b> Compatible.
             </p>
             <p>
-                Also Payment Gateway API will be design after application has <b><i>Online Payment Gateway</i></b> SMS Gateway will be integrated to simulate 3D-Secure system for internal payments.
+                If your card does not support 3D-Secure transaction please register your card to Visa or Master Card.
             </p>';
 
 // Entry
