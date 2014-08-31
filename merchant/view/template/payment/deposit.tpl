@@ -4,7 +4,6 @@
 
     <!-- Top Fixed Bar: Breadcrumb Container -->
     <div class="container">
-
         <!-- Top Fixed Bar: Breadcrumb Location -->
         <ul class="pull-left">
             <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -30,6 +29,12 @@
         <i class="icon-remove-sign"></i> <?php echo $text_information?>
     </div>
     <!-- / Alert -->
+        <?php if ($error_warning) { ?>
+        <div class="alert alert-light">
+        <a class="close" data-dismiss="alert">×</a>
+        <?php echo $error_warning?>
+        </div>
+        <?php } ?>
     <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal" role="form" id="form">
         <div class="form-group">
             <label for="card_holder_name" class="col-sm-3 control-label"><?php echo $entry_name?></label>

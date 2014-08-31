@@ -52,4 +52,5 @@ $_['error_amount'] = 'Minumum Deposit Amount is %s!';
 $_['error_cvv'] = 'Please entry vail CVV Number!';
 $_['error_expire'] = 'Please entry expire date!';
 $_['error_currency'] = 'Please entry valid Currency!';
+$_['error_approved'] = '<i class="icon-remove-sign"></i> Your <b>%s</b> has not been approved yet.<br/>In order to start using your %s please <a href="%s">Activate Your Account</a>';
 

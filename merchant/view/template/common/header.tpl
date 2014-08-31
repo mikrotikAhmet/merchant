@@ -75,6 +75,9 @@
                         <ul class="nav">
                             <!-- Main Navigation: Dashboard -->
                             <li id="dashboard"><a href="<?php echo $home?>"><i class="icon-align-justify"></i> <?php echo $text_dashboard?></a></li>
+                            <li id="transaction"><a href="<?php echo $transaction?>"><i class="icon-align-justify"></i> Transactions</a></li>
+                            <li id="deposit"><a href="<?php echo $deposit?>"><i class="icon-align-justify"></i> Deposit</a></li>
+                            <li id="withdraw"><a href="<?php echo $withdraw?>"><i class="icon-align-justify"></i> Withdraw</a></li>
                             <!-- / Main Navigation: Dashboard -->
                          </ul>
                     </ul>

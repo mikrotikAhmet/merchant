@@ -36,6 +36,7 @@ class Customer {
     private $newsletter;
     private $customer_group_id;
     private $address_id;
+    private $canSale;
 
     public function __construct($registry) {
         $this->config = $registry->get('config');
@@ -328,6 +329,18 @@ class Customer {
         } else {
             return $this->config->get('config_currency');
         }
+    }
+    
+    public function isSale(){
+        $query = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_group WHERE customer_group_id = '".(int) $this->customer_group_id."'");
+        
+        return $query->row['sale'];
+    }
+    
+    public function getAccountType(){
+        $query = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_group cg LEFT JOIN ".DB_PREFIX."customer_group_description cgd ON(cg.customer_group_id = cgd.customer_group_id) WHERE cg.customer_group_id = '".(int) $this->customer_group_id."'");
+        
+        return $query->row['name'];
     }
 
 }

@@ -65,6 +65,9 @@ class ControllerCommonHeader extends Controller{
             $this->data['avatar'] = $this->customer->getAvatar();
 
             $this->data['home'] = $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL');
+            $this->data['transaction'] = $this->url->link('account/transaction', 'token='.$this->session->data['token'],'SSL');
+            $this->data['deposit'] = $this->url->link('payment/deposit', 'token='.$this->session->data['token'],'SSL');
+            $this->data['withdraw'] = $this->url->link('payment/withdraw', 'token='.$this->session->data['token'],'SSL');
             $this->data['account'] = $this->url->link('account/account', 'token=' . $this->session->data['token'], 'SSL');
             $this->data['activate'] = $this->url->link('account/activate', 'token=' . $this->session->data['token'], 'SSL');
             

@@ -104,6 +104,12 @@ class ControllerPaymentDeposit extends Controller{
             'href' => $this->url->link('payment/deposit', 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => ' :: '
         );
+        
+        if (isset($this->error['warning'])) {
+            $this->data['error_warning'] = $this->error['warning'];
+        } else {
+            $this->data['error_warning'] = '';
+        }
 
         if (isset($this->error['cardholder'])) {
             $this->data['error_cardholder'] = $this->error['cardholder'];
@@ -210,6 +216,10 @@ class ControllerPaymentDeposit extends Controller{
         
         if ($this->request->post['amount'] > 10 && !$this->currency->isCurrency($this->request->post['amount'])){
             $this->error['currency'] = $this->language->get('error_currency');
+        }
+        
+        if (!$this->customer->isApproved()){
+            $this->error['warning'] = sprintf($this->language->get('error_approved'), $this->config->get('config_name'),$this->config->get('config_name'),$this->url->link('account/activate', 'token='.$this->session->data['token'],'SSL'));
         }
 
         if (!$this->error) {

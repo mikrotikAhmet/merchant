@@ -56,6 +56,7 @@ class ControllerAccountAccount extends Controller {
 
     protected function getForm() {
         
+                
         $this->data['title_bank'] = $this->language->get('title_bank');
 
         $this->data['text_information_bank'] = $this->language->get('text_information_bank');
@@ -197,6 +198,10 @@ class ControllerAccountAccount extends Controller {
         // Load Customer Statement
         
         $this->data['statement'] = $this->model_account_customer->getStatement();
+        
+        $this->data['isSale'] = $this->customer->isSale();
+        
+        $this->data['customer'] =  $this->model_account_customer->getCustomerAccount();
 
         $this->template = 'account/account.tpl';
         $this->children = array(

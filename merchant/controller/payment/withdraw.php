@@ -212,7 +212,6 @@ class ControllerPaymentWithdraw extends Controller {
             $this->error['warning'] = sprintf($this->language->get('error_approved'), $this->config->get('config_name'),$this->config->get('config_name'),$this->url->link('account/activate', 'token='.$this->session->data['token'],'SSL'));
         }
         
-
         if (!$this->error) {
             return true;
         } else {

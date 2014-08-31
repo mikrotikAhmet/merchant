@@ -55,9 +55,34 @@ class ControllerAccountActivate extends Controller{
     
     protected function getForm(){
         
+        $this->data['text_select'] = $this->language->get('text_select');
+        $this->data['text_none'] = $this->language->get('text_none');
+        
         $this->data['entry_fullname'] = $this->language->get('entry_fullname');
         $this->data['entry_email'] = $this->language->get('entry_email');
+        $this->data['entry_country'] = $this->language->get('entry_country');
         
+        $this->data['action'] = $this->url->link('account/account/update', 'token=' . $this->session->data['token'], 'SSL');
+
+        $this->data['token'] = $this->session->data['token'];
+
+        if (isset($this->error['email'])) {
+            $this->data['error_email'] = $this->error['email'];
+        } else {
+            $this->data['error_email'] = '';
+        }
+        
+        if (isset($this->error['country_id'])) {
+            $this->data['error_country'] = $this->error['country_id'];
+        } else {
+            $this->data['error_country'] = '';
+        }
+
+        if (isset($this->error['zone_id'])) {
+            $this->data['error_zone'] = $this->error['zone_id'];
+        } else {
+            $this->data['error_zone'] = '';
+        }
         
         $this->data['breadcrumbs'] = array();
 
@@ -72,6 +97,14 @@ class ControllerAccountActivate extends Controller{
             'href' => $this->url->link('account/activate', 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => ' :: '
         );
+        
+         $this->data['country_id'] = $this->customer->getCustomerCountryId();
+        $this->data['zone_id'] = $this->customer->getCustomerZoneId();
+        
+         // Load Countries
+        $this->load->model('localisation/country');
+
+        $this->data['countries'] = $this->model_localisation_country->getCountries();
         
         $this->template = 'account/activate.tpl';
         $this->children = array(

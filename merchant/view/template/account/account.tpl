@@ -34,7 +34,10 @@
             <div class="top-bar" style="padding-left: 0px;">
                 <ul class="tab-container">
                     <li class="active"><a href="#tab-general"><i class="icon-gears"></i> <?php echo $tab_general?></a></li>
+                    <li class=""><a href="#tab-semite"><i class="icon-shield"></i> Semite Account</a></li>
+                    <?php if ($isSale) { ?>
                     <li class=""><a href="#tab-api"><i class="icon-key"></i> API Keys</a></li>
+                    <?php } ?>
                     <li class=""><a href="#tab-transfer"><i class="icon-exchange"></i> Transfers</a></li>
                     <li class=""><a href="#tab-email"><i class="icon-globe"></i> EMails</a></li>
                     <li class=""><a href="#tab-docs"><i class="icon-file"></i> Documents</a></li>
@@ -160,7 +163,44 @@
                     <!-- / Create Account: Form --> 
                 </div>
                 <!-- / Customer General Information --> 
-                
+                <!-- Customer General Information -->
+                <div class="tab-pane" id="tab-semite">
+                    <h5>VIRTUAL BANK INFORMATION:</h5>
+                    <table class="table table-hover">
+                        <tr>
+                            <td width="20%">Account Number :</td>
+                            <td><?php echo $customer['account_number']?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">IBAN :</td>
+                            <td><?php echo $customer['iban']?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">Swift BIC :</td>
+                            <td><?php echo $customer['swift_bic']?></td>
+                        </tr>
+                    </table>
+                    <h5>VIRTUAL CARD INFORMATION:</h5>
+                    <table class="table table-hover">
+                        <tr>
+                            <td width="20%">Card Holder :</td>
+                            <td><?php echo $this->customer->getUsername()?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">V-Card Number :</td>
+                            <td><?php echo $customer['v_card_number']?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">CVV :</td>
+                            <td><?php echo $customer['v_card_ccv']?></td>
+                        </tr>
+                        <tr>
+                            <td width="20%">Expire Date :</td>
+                            <td><?php echo $customer['date_expire']?></td>
+                        </tr>
+                    </table>
+                </div>
+                <?php if ($isSale) { ?>
                 <!-- / Customer General API KEY --> 
                 <div class="tab-pane" id="tab-api">
                     <form class="form-horizontal" id="api">
@@ -204,6 +244,7 @@
                     </form>
                     
                 </div>
+                <?php } ?>
                 <!-- / Customer General API KEY --> 
                 
                 <!-- / Customer General Transfers -->
