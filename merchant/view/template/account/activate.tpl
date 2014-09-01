@@ -27,6 +27,7 @@
 <!-- Content Container -->
 <div class="container">
     <div class="row">
+        <?php if ($this->customer->isSale()) { ?>
         <div class="span8">
             <!-- Create Account: Form -->
             <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal" role="form" id="form">
@@ -91,7 +92,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                            <label class="control-label" for="inputNationality"><i class=""></i> <?php echo $entry_country?></label>
+                            <label class="control-label" for="inputNationality"><i class=""></i> Country / State</label>
                             <div class="controls">
                                 <select name="country_id" class="span3" title="countries">
                                     <option value=""><?php echo $text_select?></option>
@@ -128,6 +129,10 @@
             </ul>
             <p>For more information please check our <a href="http://local.semitepayment.com/merchant-account-requirement" target="_blank">Merchant Account Application</a> Informations</p>
         </div>
+        <?php } else { ?>
+        <h4>Congragulations!</h4>
+        <h5>Your Semite Payment Account has been already Approved.</h5>
+        <?php } ?>
     </div>
 </div>
 <script type="text/javascript"><!--

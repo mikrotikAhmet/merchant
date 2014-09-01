@@ -35,63 +35,43 @@
         <?php echo $error_warning?>
         </div>
         <?php } ?>
-    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form" class="form-horizontal" role="form" id="form">
-        <div class="form-group">
-            <label for="card_holder_name" class="col-sm-3 control-label"><?php echo $entry_name?></label>
-            <div class="col-sm-4">
-                <input type="text" name="cardholder" value="<?php echo $cardholder; ?>" class="form-control">
-                <br/>
-                <?php if ($error_cardholder) { ?>
-                <span class="error"><?php echo $error_cardholder; ?></span>
-                <?php } ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="card_number" class="col-sm-3 control-label"><?php echo $entry_card_number?></label>
-            <div class="col-sm-3">
-                <input type="text" name="cardnum" value="<?php echo $cardnum; ?>" class="form-control">
-                <br/>
-                <?php if ($error_cardnum) { ?>
-                <span class="error"><?php echo $error_cardnum; ?></span>
-                <?php } ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="card_expire" class="col-sm-3 control-label"><?php echo $entry_expire_date?></label>
-                <input type="text" name="expire_date" value="<?php echo $expiredate; ?>" class="form-control">
-                <br/>
-                <?php if ($error_expire) { ?>
-                <span class="error"><?php echo $error_expire; ?></span>
-                <?php } ?>
-        </div>
-        <div class="form-group">
-            <label for="card_cvv" class="col-sm-3 control-label"><?php echo $entry_cvv?></label>
-            <div class="col-sm-1">
-                <input type="text" name="cvv" value="<?php echo $cvv; ?>" class="form-control">
-                <br/>
-                <?php if ($error_cvv) { ?>
-                <span class="error"><?php echo $error_cvv; ?></span>
-                <?php } ?>
-            </div>
-        </div>
+    <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="PostToMPI" class="form-horizontal" role="form" id="form">
+        <input type="hidden" name="pOrgNo"  value="<?php echo $vpos['organization']?>" />
+        <input type="hidden" name="pFirmNo"  value="<?php echo $vpos['company_code']?>" /> 
+        <input type="hidden" name="pTermNo" value="<?php echo $vpos['terminal']?>" /> 
+        <input type="hidden" name="pTaksit" value="0" /> 
+        <input type="hidden" name="pXid" value="<?php echo $pXid?>" /> 
+        <input type="hidden" name="pokUrl" value="<?php echo $pokUrl?>" /> 
+        <input type="hidden" name="pfailUrl" value="<?php echo $pfailUrl?>" /> 
+        <input type="hidden" name="pSipNo" value="<?php echo $pSipNo?>"/> 
+        <!--<input type="text" name="pNotes" value=""/>--> 
         <div class="form-group">
             <label for="amount" class="col-sm-3 control-label"><?php echo $entry_amount?></label>
             <div class="col-sm-3">
-                <input type="text" name="amount" value="<?php echo $amount; ?>" class="form-control">
-                <br/>
-                <?php if ($error_amount) { ?>
-                <span class="error"><?php echo $error_amount; ?></span>
-                <?php } ?>
-                <?php if ($error_currency) { ?>
-                <span class="error"><?php echo $error_currency; ?></span>
-                <?php } ?>
+                <input type="hidden" name="pAmount" value="" class="form-control">
+                <input type="text" name="Amount" value="" class="form-control">
             </div>
         </div>
-        
-        <div class="form-actions">
-            <button type="button" onclick="$('#form').submit();" class="btn btn-primary"><?php echo $button_deposit?></button>
-            <button type="button" class="btn" onclick="window.location = '<?php echo $home?>'"><?php echo $button_cancel?></button>
+        <div class="form-group">
+            <label for="notes" class="col-sm-3 control-label">Description</label>
+            <div class="col-sm-3">
+                <textarea name="pNotes" class="form-control span6"></textarea>
+            </div>
         </div>
     </form>
+        <div class="form-actions">
+            <button id="pay" class="btn btn-primary"><?php echo $button_deposit?></button>
+            <button type="button" class="btn" onclick="window.location = '<?php echo $home?>'"><?php echo $button_cancel?></button>
+        </div>
 </div>
+<script>
+    $('#pay').bind('click',function(){
+        var pAmount = $('input[name=\'Amount\']').val() * 100;
+        
+        $('input[name=\'pAmount\']').val(pAmount);
+        
+        $('#PostToMPI').submit();
+            });
+    
+</script>
 <?php echo $footer?>

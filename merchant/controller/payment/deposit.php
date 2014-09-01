@@ -47,7 +47,7 @@ class ControllerPaymentDeposit extends Controller{
 
     public function index(){
         $this->language->load('payment/deposit');
-        
+                
         $this->document->setTitle($this->language->get('heading_title'));
         
         $this->data['text_information'] = sprintf($this->language->get('text_information'), $this->config->get('config_name'));
@@ -70,16 +70,13 @@ class ControllerPaymentDeposit extends Controller{
         $this->data['heading_title'] = $this->language->get('heading_title');
 
 
-        $this->data['action'] = $this->url->link('payment/deposit', 'token='.$this->session->data['token'], 'SSL');
+        $this->data['action'] = 'https://www.e-tahsildar.com.tr/NetProvOrtakOdeme/NetProvPost.aspx';
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+        if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->request->get['status'] == 'success')) {
            
-        
-                
-            
             $this->load->model('payment/transaction');
 
-            $this->creditcard->Validate($this->request->post['cardnum'], $this->customer->getId());
+            $this->creditcard->Validate($this->request->post['pCardNo'], $this->customer->getId());
 
             $card_info = $this->creditcard->GetCardInfo();
 
@@ -181,6 +178,15 @@ class ControllerPaymentDeposit extends Controller{
             $this->data['amount'] = 0;
         }
         
+        $this->data['vpos'] = $this->config->get('vpos_module');
+        
+        $digits = 1;
+        $xidlen = 6;
+        $this->data['pSipNo'] = date('YmdHis').rand(pow(10, $digits-1), pow(10, $digits)-1);
+        $this->data['pXid'] = date('YmdHis').rand(pow(10, $xidlen-1), pow(10, $xidlen)-1);
+        $this->data['pokUrl'] = $this->url->link('payment/deposit','token='.$this->session->data['token'].'&status=success', 'SSL');
+        $this->data['pfailUrl'] = $this->url->link('payment/deposit','token='.$this->session->data['token'].'&status=error', 'SSL');
+        
         
         $this->template = 'payment/deposit.tpl';
 
@@ -197,24 +203,24 @@ class ControllerPaymentDeposit extends Controller{
             $this->error['cardholder'] = $this->language->get('error_cardholder');
         }
 
-        if ((utf8_strlen($this->request->post['cardnum']) < 12) || (utf8_strlen($this->request->post['cardnum']) > 16)) {
+        if ((utf8_strlen($this->request->post['pCardNo']) < 12) || (utf8_strlen($this->request->post['pCardNo']) > 16)) {
             $this->error['cardnum'] = $this->language->get('error_cardnum');
         }
         
-        if ($this->request->post['amount'] < 10 || ($this->request->post['amount']) == 0) {
+        if ($this->request->post['pAmount'] < 10 || ($this->request->post['pAmount']) == 0) {
                        
-            $this->error['amount'] = sprintf($this->currency->format('10', $this->config->get('config_currency')),$this->language->get('error_amount'));
+            $this->error['pAmount'] = sprintf($this->currency->format('10', $this->config->get('config_currency')),$this->language->get('error_amount'));
         }
         
-        if ((utf8_strlen($this->request->post['expire_date']) < 1) || (utf8_strlen($this->request->post['expire_date']) > 5)) {
+        if ((utf8_strlen($this->request->post['pExpDate']) < 1) || (utf8_strlen($this->request->post['pExpDate']) > 6)) {
             $this->error['expire'] = $this->language->get('error_expire');
         }
         
-        if ((utf8_strlen($this->request->post['cvv']) < 1) || (utf8_strlen($this->request->post['cvv']) > 4)) {
+        if ((utf8_strlen($this->request->post['pCVV2']) < 1) || (utf8_strlen($this->request->post['pCVV2']) > 4)) {
             $this->error['cvv'] = $this->language->get('error_cvv');
         }
         
-        if ($this->request->post['amount'] > 10 && !$this->currency->isCurrency($this->request->post['amount'])){
+        if ($this->request->post['pAmount'] > 10 && !$this->currency->isCurrency($this->request->post['pAmount'])){
             $this->error['currency'] = $this->language->get('error_currency');
         }
         
