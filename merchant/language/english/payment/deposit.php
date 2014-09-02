@@ -31,11 +31,11 @@ $_['heading_title'] = 'Payment Deposit';
 
 // Text
 $_['text_information'] = '<p>
-                %s uses <b>PCI DSS Level - 1 3D Secure Transaction System.</b><br/>
+                %s uses <b>PCI DSS Level - 1 3D Secure Transaction System powered by <a href="http://www.provus.com.tr">Provus MasterCard Company</a>.</b><br/>
                 with <b>PCI Complience</b> Compatible.
             </p>
             <p>
-                If your card does not support 3D-Secure transaction please register your card to Visa or Master Card.
+                If your card does not support 3D-Secure transaction please register your card to Visa or Master Card by clicking <a href="https://www.3dsecure.icicibank.com/ACSWeb/EnrollWeb/ICICIBank/main/reg0.jsp" target="_blank">Register Your Card</a>.
             </p>';
 
 // Entry

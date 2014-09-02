@@ -40,29 +40,28 @@ if (!defined('DIR_APPLICATION'))
  * Date : Jul 5, 2014
  */
 
-class ControllerPaymentDeposit extends Controller{
-    
+class ControllerPaymentDeposit extends Controller {
+
     private $error = array();
 
-
-    public function index(){
+    public function index() {
         $this->language->load('payment/deposit');
-                
+
         $this->document->setTitle($this->language->get('heading_title'));
-        
+
         $this->data['text_information'] = sprintf($this->language->get('text_information'), $this->config->get('config_name'));
-        
+
         $this->data['entry_name'] = $this->language->get('entry_name');
         $this->data['entry_card_number'] = $this->language->get('entry_card_number');
         $this->data['entry_expire_date'] = $this->language->get('entry_expire_date');
         $this->data['entry_cvv'] = $this->language->get('entry_cvv');
         $this->data['entry_amount'] = $this->language->get('entry_amount');
-        
+
         $this->data['button_deposit'] = $this->language->get('button_deposit');
         $this->data['button_cancel'] = $this->language->get('button_cancel');
-        
-        $this->data['home'] = $this->url->link('common/home', 'token='.$this->session->data['token'], 'SSL');
-        
+
+        $this->data['home'] = $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL');
+
 
         $this->document->setTitle($this->language->get('heading_title'));
 
@@ -70,24 +69,24 @@ class ControllerPaymentDeposit extends Controller{
         $this->data['heading_title'] = $this->language->get('heading_title');
 
 
-        $this->data['action'] = 'https://www.e-tahsildar.com.tr/NetProvOrtakOdeme/NetProvPost.aspx';
+        $this->data['action'] = $this->url->link('payment/deposit', 'token=' . $this->session->data['token'], 'SSL');
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->request->get['status'] == 'success')) {
-           
-            $this->load->model('payment/transaction');
+        if (($this->request->server['REQUEST_METHOD'] == 'POST' && $this->validateForm())) {
 
-            $this->creditcard->Validate($this->request->post['pCardNo'], $this->customer->getId());
+            $this->session->data['PSTDT'] = $this->request->post;
+            
+             $this->creditcard->Validate($this->request->post['pCardNo'], $this->customer->getId());
 
             $card_info = $this->creditcard->GetCardInfo();
 
             if ($card_info['status'] == 'valid') {
-                
-                $this->model_payment_transaction->addTransaction('Deposit'.($this->customer->isApproved() ? null : ' Test Mode'),$this->creditcard->GetCardInfo(),'',$this->request->post);
 
-                $this->redirect($this->url->link('common/home', 'token='.$this->session->data['token'], 'SSL'));
+                $this->redirect($this->url->link('payment/deposit/pay', 'token=' . $this->session->data['token'], 'SSL', $this->request->post));
             }
+
+            
         }
-        
+
         $this->data['breadcrumbs'] = array();
 
         $this->data['breadcrumbs'][] = array(
@@ -101,7 +100,7 @@ class ControllerPaymentDeposit extends Controller{
             'href' => $this->url->link('payment/deposit', 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => ' :: '
         );
-        
+
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
         } else {
@@ -119,13 +118,13 @@ class ControllerPaymentDeposit extends Controller{
         } else {
             $this->data['error_cardnum'] = '';
         }
-        
+
         if (isset($this->error['expire'])) {
             $this->data['error_expire'] = $this->error['expire'];
         } else {
             $this->data['error_expire'] = '';
         }
-        
+
         if (isset($this->error['cvv'])) {
             $this->data['error_cvv'] = $this->error['cvv'];
         } else {
@@ -137,7 +136,7 @@ class ControllerPaymentDeposit extends Controller{
         } else {
             $this->data['error_amount'] = '';
         }
-        
+
         if (isset($this->error['currency'])) {
             $this->data['error_currency'] = $this->error['currency'];
         } else {
@@ -177,17 +176,10 @@ class ControllerPaymentDeposit extends Controller{
         } else {
             $this->data['amount'] = 0;
         }
-        
+
+
         $this->data['vpos'] = $this->config->get('vpos_module');
-        
-        $digits = 1;
-        $xidlen = 6;
-        $this->data['pSipNo'] = date('YmdHis').rand(pow(10, $digits-1), pow(10, $digits)-1);
-        $this->data['pXid'] = date('YmdHis').rand(pow(10, $xidlen-1), pow(10, $xidlen)-1);
-        $this->data['pokUrl'] = $this->url->link('payment/deposit','token='.$this->session->data['token'].'&status=success', 'SSL');
-        $this->data['pfailUrl'] = $this->url->link('payment/deposit','token='.$this->session->data['token'].'&status=error', 'SSL');
-        
-        
+
         $this->template = 'payment/deposit.tpl';
 
         $this->children = array(
@@ -198,35 +190,93 @@ class ControllerPaymentDeposit extends Controller{
         $this->response->setOutput($this->render());
     }
 
+    public function pay() {
+
+        $customer_post_data = $this->session->data['PSTDT'];
+
+        $this->data['token'] = $this->session->data['token'];
+
+        $this->load->helper('creditcard');
+
+        $vpos = $this->config->get('vpos_module');
+
+        $digits = 1;
+        $xidlen = 6;
+
+        $prepare_payment = array(
+            'customer_name' => $this->customer->getUserName(),
+            'date' => date($this->language->get('date_format_long'), strtotime(date('Y-m-d'))),
+            'amount' => sprintf('%012d', ($customer_post_data['pAmountManual'] * 100)),
+            'description' => (!empty($customer_post_data['pNotes']) ? $customer_post_data['pNotes'] : 'Deposit To Account'),
+            'pCardNo' => $customer_post_data['pCardNo'],
+            'pCardNoMasked' => MaskCreditCard($customer_post_data['pCardNo']),
+            'pCVV2' => $customer_post_data['pCVV2'],
+            'pExpDate' => $customer_post_data['pExpYear'] . $customer_post_data['pExpMonth'],
+            'pOrgNo' => $vpos['organization'],
+            'pTermNo' => $vpos['terminal'],
+            'pFirmNo' => $vpos['company_code'],
+            'secure' => ($vpos['secure'] ? 'true' : 'false'),
+            'key' => $vpos['merchant_id'],
+            'pSipNo' => date('YmdHis') . rand(pow(10, $digits - 1), pow(10, $digits) - 1),
+            'pXid' => date('YmdHis') . rand(pow(10, $xidlen - 1), pow(10, $xidlen) - 1),
+            'pokUrl' => $this->url->link('payment/deposit/pay', 'token=' . $this->session->data['token'] . 'status=true', 'SSL'),
+            'pfailUrl' => $this->url->link('payment/deposit/pay', 'token=' . $this->session->data['token'] . 'status=false', 'SSL'),
+        );
+
+        $this->data['prepare_payment'] = $prepare_payment;
+
+        $this->data['home'] = $this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL');
+
+        if ($this->request->get['status'] == 'true') {
+            
+            $this->load->model('payment/transaction');
+
+                $this->model_payment_transaction->addTransaction('Deposit' . ($this->customer->isApproved() ? null : ' Test Mode'), $this->creditcard->GetCardInfo(), (!empty($customer_post_data['pNotes']) ? $customer_post_data['pNotes'] : 'Deposit To Account'), $this->request->post);
+
+                $this->redirect($this->url->link('common/home', 'token=' . $this->session->data['token'], 'SSL'));
+        }
+
+        $this->template = 'payment/pay.tpl';
+
+        $this->children = array(
+            'common/header',
+            'common/footer'
+        );
+
+        $this->response->setOutput($this->render());
+    }
+
     protected function validateForm() {
-        if ((utf8_strlen($this->request->post['cardholder']) < 1) || (utf8_strlen($this->request->post['cardholder']) > 32)) {
+        if ((utf8_strlen($this->request->post['pCardHolder']) < 1) || (utf8_strlen($this->request->post['pCardHolder']) > 32)) {
             $this->error['cardholder'] = $this->language->get('error_cardholder');
         }
 
         if ((utf8_strlen($this->request->post['pCardNo']) < 12) || (utf8_strlen($this->request->post['pCardNo']) > 16)) {
             $this->error['cardnum'] = $this->language->get('error_cardnum');
         }
-        
-        if ($this->request->post['pAmount'] < 10 || ($this->request->post['pAmount']) == 0) {
-                       
-            $this->error['pAmount'] = sprintf($this->currency->format('10', $this->config->get('config_currency')),$this->language->get('error_amount'));
+
+        if ($this->request->post['pAmountManual'] < 10 || ($this->request->post['pAmountManual']) == 0) {
+
+            $this->error['amount'] = sprintf($this->currency->format('10', $this->config->get('config_currency')), $this->language->get('error_amount'));
         }
-        
-        if ((utf8_strlen($this->request->post['pExpDate']) < 1) || (utf8_strlen($this->request->post['pExpDate']) > 6)) {
+
+        $pExpDate = $this->request->post['pExpYear'] . $this->request->post['pExpMonth'];
+
+        if ((utf8_strlen($pExpDate) < 1) || (utf8_strlen($pExpDate) > 6)) {
             $this->error['expire'] = $this->language->get('error_expire');
         }
-        
+
         if ((utf8_strlen($this->request->post['pCVV2']) < 1) || (utf8_strlen($this->request->post['pCVV2']) > 4)) {
             $this->error['cvv'] = $this->language->get('error_cvv');
         }
-        
-        if ($this->request->post['pAmount'] > 10 && !$this->currency->isCurrency($this->request->post['pAmount'])){
+
+        if ($this->request->post['pAmountManual'] > 10 && !$this->currency->isCurrency($this->request->post['pAmountManual'])) {
             $this->error['currency'] = $this->language->get('error_currency');
         }
-        
-        if (!$this->customer->isApproved()){
-            $this->error['warning'] = sprintf($this->language->get('error_approved'), $this->config->get('config_name'),$this->config->get('config_name'),$this->url->link('account/activate', 'token='.$this->session->data['token'],'SSL'));
-        }
+
+//        if (!$this->customer->isApproved()){
+//            $this->error['warning'] = sprintf($this->language->get('error_approved'), $this->config->get('config_name'),$this->config->get('config_name'),$this->url->link('account/activate', 'token='.$this->session->data['token'],'SSL'));
+//        }
 
         if (!$this->error) {
             return true;
@@ -234,5 +284,5 @@ class ControllerPaymentDeposit extends Controller{
             return false;
         }
     }
-}
 
+}
