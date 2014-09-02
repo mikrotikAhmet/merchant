@@ -26,7 +26,7 @@
 <div class="container">
     <div class="alert alert-light">
         <a class="close" data-dismiss="alert">&times;</a>
-        <!--img src="merchant/view/assets/img/logo-provus.png"--/>
+        <img src="merchant/view/assets/img/logo-provus.png"/>
         <?php echo $text_information?>
     </div>
     <!-- / Alert -->
