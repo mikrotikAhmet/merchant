@@ -31,7 +31,7 @@ $_['heading_title'] = 'Payment Deposit';
 
 // Text
 $_['text_information'] = '<p>
-                %s uses <b>PCI DSS Level - 1 3D Secure Transaction System powered by <a href="http://www.provus.com.tr">Provus MasterCard Company</a>.</b><br/>
+                %s uses <b>PCI DSS Level - 1 3D Secure Transaction System powered by <a href="http://www.provus.com.tr" target="_blank">Provus MasterCard Company</a>.</b><br/>
                 with <b>PCI Complience</b> Compatible.
             </p>
             <p>
