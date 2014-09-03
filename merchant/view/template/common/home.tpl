@@ -122,7 +122,10 @@
                             <td><?php echo $transaction['type']?></td>
                             <td><?php echo $transaction['description']?></td>
                             <td class="center"> <?php echo $transaction['status']?></td>
-                            <td class="center"><a>View</a></td>
+                            <td class="center"><a data-transaction="<?php echo $transaction['transaction_id']?>" class="btn btn-success pull-right">Details</a></td>
+                        </tr>
+                        <tr class="details" id="<?php echo $transaction['transaction_id']?>" style="display: none">
+                            <td colspan="5"><h4>Details of ID : <?php echo $transaction['transaction_id']?></h4></td>
                         </tr>
                         <?php } ?>
                         
@@ -139,4 +142,15 @@
     <!-- / Live Stats -->
 </div>
 <!-- / Content Container -->
+<script>
+    
+    $('.data-table a').bind('click',function(){
+        
+        var transaction_id = $(this).attr('data-transaction');
+        $('.details').hide();
+        
+        $('#'+transaction_id).toggle();
+    });
+    
+</script>
 <?php echo $footer?>

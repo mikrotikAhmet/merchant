@@ -306,7 +306,7 @@ class ModelAccountCustomer extends Model {
             $limit = 10;
         }
 
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer_transaction WHERE customer_id = '" . (int) $this->customer->getId() . "' ORDER BY date_added DESC LIMIT " . (int) $start . "," . (int) $limit);
+        $query = $this->db->query("SELECT *,(ts.name) AS status FROM " . DB_PREFIX . "customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_status ts ON(ct.status = ts.transaction_status_id) WHERE ct.customer_id = '" . (int) $this->customer->getId() . "' ORDER BY ct.date_added DESC LIMIT " . (int) $start . "," . (int) $limit);
 
         return $query->rows;
     }
