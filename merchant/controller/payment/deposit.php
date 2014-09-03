@@ -231,7 +231,7 @@ class ControllerPaymentDeposit extends Controller {
             
             $this->load->model('payment/transaction');
 
-//                $this->model_payment_transaction->addTransaction('Deposit' . ($this->customer->isApproved() ? null : ' Test Mode'), $this->creditcard->GetCardInfo(), (!empty($customer_post_data['pNotes']) ? $customer_post_data['pNotes'] : 'Deposit To Account'), $this->request->post);
+                $this->model_payment_transaction->addTransaction('Deposit' . ($this->customer->isApproved() ? null : ' Test Mode'), $this->creditcard->GetCardInfo(), (!empty($customer_post_data['pNotes']) ? $customer_post_data['pNotes'] : 'Deposit To Account'), $this->request->post);
 
                 $this->redirect($this->url->link('common/success', 'token=' . $this->session->data['token'].'&amount='.$customer_post_data['pAmountManual'], 'SSL'));
         }
