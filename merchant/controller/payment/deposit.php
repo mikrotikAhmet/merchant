@@ -207,6 +207,7 @@ class ControllerPaymentDeposit extends Controller {
             'customer_name' => $this->customer->getUserName(),
             'date' => date($this->language->get('date_format_long'), strtotime(date('Y-m-d'))),
             'amount' => sprintf('%012d', ($customer_post_data['pAmountManual'] * 100)),
+            'netamount' => $customer_post_data['pAmountManual'],
             'description' => (!empty($customer_post_data['pNotes']) ? $customer_post_data['pNotes'] : 'Deposit To Account'),
             'pCardNo' => $customer_post_data['pCardNo'],
             'pCardNoMasked' => MaskCreditCard($customer_post_data['pCardNo']),
@@ -231,7 +232,7 @@ class ControllerPaymentDeposit extends Controller {
             
             $this->load->model('payment/transaction');
 
-                $this->model_payment_transaction->addTransaction('Deposit' . ($this->customer->isApproved() ? null : ' Test Mode'), $this->creditcard->GetCardInfo(), (!empty($customer_post_data['pNotes']) ? $customer_post_data['pNotes'] : 'Deposit To Account'), $this->request->post);
+                $this->model_payment_transaction->addTransaction('Deposit' . ($this->customer->isApproved() ? null : ' Test Mode'), $this->creditcard->GetCardInfo(), (!empty($customer_post_data['pNotes']) ? $customer_post_data['pNotes'] : 'Deposit To Account'), $prepare_payment);
 
                 $this->redirect($this->url->link('common/success', 'token=' . $this->session->data['token'].'&amount='.$customer_post_data['pAmountManual'], 'SSL'));
         }
